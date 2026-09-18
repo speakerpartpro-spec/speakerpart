@@ -52,6 +52,15 @@
     saveCart();
     renderCartDrawer();
     openCartDrawer();
+
+    // Trigger cart button bump animation
+    document.querySelectorAll('#cartBtn, #mobileCartTrigger').forEach(btn => {
+      btn.classList.remove('cart-bump');
+      void btn.offsetWidth;
+      btn.classList.add('cart-bump');
+    });
+
+    showToast(`Added to RFQ: ${product.name || 'Component'}`);
   }
 
   function removeFromCart(id) {
@@ -61,7 +70,7 @@
   }
 
   function updateCartCount() {
-    const countEls = document.querySelectorAll('.cart-badge-count');
+    const countEls = document.querySelectorAll('.cart-badge-count, #mobileBottomCartBadge');
     const total = rfqCart.reduce((sum, item) => sum + item.quantity, 0);
     countEls.forEach(el => {
       el.textContent = total;
@@ -593,11 +602,260 @@
     menu.classList.toggle('open');
   }
 
+  // --- Toast Alert Notification ---
+  function showToast(msg) {
+    const existing = document.querySelector('.spp-toast');
+    if (existing) existing.remove();
+
+    const toast = document.createElement('div');
+    toast.className = 'spp-toast';
+    toast.innerHTML = `<span class="spp-toast-dot"></span><span>${msg}</span>`;
+    document.body.appendChild(toast);
+    setTimeout(() => {
+      if (toast.parentNode) toast.remove();
+    }, 2700);
+  }
+
+  // --- Top Reading Scroll Progress Bar ---
+  function initScrollProgressBar() {
+    let bar = document.getElementById('scrollProgressBar');
+    if (!bar) {
+      bar = document.createElement('div');
+      bar.id = 'scrollProgressBar';
+      document.body.prepend(bar);
+    }
+    const updateBar = () => {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+      bar.style.width = scrolled + '%';
+    };
+    window.addEventListener('scroll', updateBar, { passive: true });
+    updateBar();
+  }
+
+  // --- Floating Back-to-Top Button ---
+  function initBackToTop() {
+    let btn = document.querySelector('.back-to-top-btn');
+    if (!btn) {
+      btn = document.createElement('button');
+      btn.className = 'back-to-top-btn';
+      btn.setAttribute('title', 'Back to top');
+      btn.setAttribute('aria-label', 'Back to top');
+      btn.innerHTML = `
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+      `;
+      document.body.appendChild(btn);
+      btn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 380) {
+        btn.classList.add('visible');
+      } else {
+        btn.classList.remove('visible');
+      }
+    }, { passive: true });
+  }
+
+  // --- Modern Mobile Sticky Bottom App Bar ---
+  function initMobileBottomBar() {
+    if (document.querySelector('.mobile-bottom-bar')) return;
+
+    const bar = document.createElement('nav');
+    bar.className = 'mobile-bottom-bar';
+    const currentPath = window.location.pathname;
+
+    const isHome = currentPath === '/' || currentPath.endsWith('index.html') || currentPath === '';
+    const isCatalog = currentPath.includes('product') || currentPath.includes('category');
+
+    bar.innerHTML = `
+      <a href="/index.html" class="mobile-bar-item ${isHome ? 'active' : ''}" title="Home">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+        <span>Home</span>
+      </a>
+
+      <a href="/products.html" class="mobile-bar-item ${isCatalog ? 'active' : ''}" title="Products">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+          <polyline points="2 17 12 22 22 17"></polyline>
+          <polyline points="2 12 12 17 22 12"></polyline>
+        </svg>
+        <span>Catalog</span>
+      </a>
+
+      <button class="mobile-bar-item" id="mobileSearchTrigger" title="Search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <span>Search</span>
+      </button>
+
+      <button class="mobile-bar-item" id="mobileCartTrigger" title="RFQ Cart">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+        <span class="mobile-bar-badge" id="mobileBottomCartBadge">0</span>
+        <span>RFQ Cart</span>
+      </button>
+
+      <a href="https://wa.me/919214361550" target="_blank" rel="noopener noreferrer" class="mobile-bar-item" title="WhatsApp Desk" style="color: #25D366;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+        </svg>
+        <span>WhatsApp</span>
+      </a>
+    `;
+
+    document.body.appendChild(bar);
+
+    const cartBtn = document.getElementById('mobileCartTrigger');
+    if (cartBtn) cartBtn.addEventListener('click', openCartDrawer);
+
+    const searchBtn = document.getElementById('mobileSearchTrigger');
+    if (searchBtn) {
+      searchBtn.addEventListener('click', () => {
+        const searchInput = document.querySelector('.mobile-search-wrapper input, .search-input-wrap input');
+        if (searchInput) {
+          searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          setTimeout(() => searchInput.focus(), 250);
+        } else {
+          window.location.href = '/products.html';
+        }
+      });
+    }
+
+    updateCartCount();
+  }
+
+  // --- Scroll-Triggered Reveal Animations Engine ---
+  function initScrollAnimations() {
+    const targets = document.querySelectorAll(`
+      section > .container > div,
+      .component-system-card,
+      .blueprint-card,
+      .process-step-node,
+      .category-popout-card,
+      .hero-stage-card,
+      .quick-filter-strip,
+      h1, h2,
+      .hero-split-grid > div
+    `);
+
+    targets.forEach(el => {
+      if (!el.hasAttribute('data-reveal')) {
+        el.setAttribute('data-reveal', 'up');
+      }
+    });
+
+    document.querySelectorAll('#homeFeaturedGrid, #productsGrid, .hero-split-grid, div[style*="grid-template-columns"]').forEach(grid => {
+      Array.from(grid.children).forEach((child, index) => {
+        if (!child.hasAttribute('data-delay')) {
+          child.setAttribute('data-delay', (index % 8 + 1).toString());
+        }
+      });
+    });
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-revealed');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.04,
+        rootMargin: '0px 0px -20px 0px'
+      });
+
+      document.querySelectorAll('[data-reveal]').forEach(el => observer.observe(el));
+    } else {
+      document.querySelectorAll('[data-reveal]').forEach(el => el.classList.add('is-revealed'));
+    }
+
+    initNumberCounters();
+  }
+
+  // --- Number Counters Animation ---
+  function initNumberCounters() {
+    const counterElements = document.querySelectorAll('.process-step-num, [data-counter]');
+    if (!counterElements.length || !('IntersectionObserver' in window)) return;
+
+    const numObserver = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const text = el.textContent.trim();
+          const match = text.match(/\d+/);
+          if (match) {
+            const finalVal = parseInt(match[0], 10);
+            const prefix = text.startsWith('0') && finalVal < 10 ? '0' : '';
+            let current = 0;
+            const step = Math.max(1, Math.floor(finalVal / 20));
+            const timer = setInterval(() => {
+              current += step;
+              if (current >= finalVal) {
+                current = finalVal;
+                clearInterval(timer);
+              }
+              el.textContent = prefix + current;
+            }, 35);
+          }
+          obs.unobserve(el);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    counterElements.forEach(el => numObserver.observe(el));
+  }
+
+  // --- Refresh Animation for Dynamic Catalog Grids ---
+  function refreshAnimations() {
+    setTimeout(() => {
+      document.querySelectorAll('#homeFeaturedGrid .product-card, #productsGrid .product-card').forEach((card, index) => {
+        if (!card.hasAttribute('data-reveal')) {
+          card.setAttribute('data-reveal', 'zoom');
+          card.setAttribute('data-delay', (index % 6 + 1).toString());
+        }
+      });
+
+      if ('IntersectionObserver' in window) {
+        const obs = new IntersectionObserver((entries, o) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-revealed');
+              o.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.04 });
+
+        document.querySelectorAll('[data-reveal]:not(.is-revealed)').forEach(el => obs.observe(el));
+      } else {
+        document.querySelectorAll('[data-reveal]').forEach(el => el.classList.add('is-revealed'));
+      }
+    }, 40);
+  }
+
   // --- Initialize on Page Load ---
   document.addEventListener('DOMContentLoaded', () => {
     renderHeader();
     renderFooter();
     createCartDrawer();
+    initScrollProgressBar();
+    initBackToTop();
+    initMobileBottomBar();
+    initScrollAnimations();
   });
 
   // Global Export API
@@ -620,6 +878,8 @@
     closeCartDrawer,
     openRfqModal,
     closeRfqModal,
-    toggleMobileMenu
+    toggleMobileMenu,
+    showToast,
+    refreshAnimations
   };
 })();

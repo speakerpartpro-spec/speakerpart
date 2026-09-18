@@ -199,6 +199,9 @@
           </div>
         `;
       }).join('');
+      if (window.TSPC && window.TSPC.refreshAnimations) {
+        window.TSPC.refreshAnimations();
+      }
     }
 
     document.addEventListener('DOMContentLoaded', initCategoryPage);

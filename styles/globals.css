@@ -827,3 +827,376 @@ footer.site-footer {
   vertical-align: baseline;
 }
 
+/* ==========================================================================
+   SPEAKERPARTPRO MASTER ANIMATION & MOBILE RESPONSIVE SUITE
+   ========================================================================== */
+
+/* --- 1. Top Reading Scroll Progress Bar --- */
+#scrollProgressBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(90deg, #FF5A00, #FF8A00, #FF3D00);
+  box-shadow: 0 0 10px rgba(255, 90, 0, 0.6), 0 0 4px rgba(255, 90, 0, 0.4);
+  z-index: 10000;
+  transition: width 0.08s linear;
+  pointer-events: none;
+}
+
+/* --- 2. Master Scroll Reveal Animation System --- */
+[data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 28px, 0);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+[data-reveal].is-revealed {
+  opacity: 1 !important;
+  transform: translate3d(0, 0, 0) scale(1) !important;
+}
+[data-reveal="fade"] {
+  transform: none;
+}
+[data-reveal="left"] {
+  transform: translate3d(-36px, 0, 0);
+}
+[data-reveal="right"] {
+  transform: translate3d(36px, 0, 0);
+}
+[data-reveal="zoom"] {
+  transform: scale(0.92) translate3d(0, 16px, 0);
+}
+[data-reveal="zoom"].is-revealed {
+  transform: scale(1) translate3d(0, 0, 0) !important;
+}
+
+/* Stagger Delays for Sequential Cascades */
+[data-delay="1"] { transition-delay: 0.06s; }
+[data-delay="2"] { transition-delay: 0.12s; }
+[data-delay="3"] { transition-delay: 0.18s; }
+[data-delay="4"] { transition-delay: 0.24s; }
+[data-delay="5"] { transition-delay: 0.30s; }
+[data-delay="6"] { transition-delay: 0.36s; }
+[data-delay="7"] { transition-delay: 0.42s; }
+[data-delay="8"] { transition-delay: 0.48s; }
+
+/* Micro-Interaction Keyframes */
+@keyframes sppFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+@keyframes sppPulse {
+  0% { box-shadow: 0 0 0 0 rgba(255, 90, 0, 0.5); }
+  70% { box-shadow: 0 0 0 10px rgba(255, 90, 0, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 90, 0, 0); }
+}
+@keyframes sppCartBump {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.35) rotate(-8deg); }
+  60% { transform: scale(0.92) rotate(4deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+@keyframes sppToastSlide {
+  0% { transform: translate(-50%, -50px); opacity: 0; }
+  12% { transform: translate(-50%, 0); opacity: 1; }
+  85% { transform: translate(-50%, 0); opacity: 1; }
+  100% { transform: translate(-50%, -50px); opacity: 0; }
+}
+@keyframes sppShimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.anim-float {
+  animation: sppFloat 4s ease-in-out infinite;
+}
+.anim-pulse {
+  animation: sppPulse 2.2s infinite;
+}
+.cart-bump {
+  animation: sppCartBump 0.45s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* Toast Alert System */
+.spp-toast {
+  position: fixed;
+  top: 54px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #111215;
+  color: #FFFFFF;
+  padding: 0.6rem 1.35rem;
+  border-radius: 30px;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.22), 0 0 0 1px rgba(255,90,0,0.4);
+  z-index: 10000;
+  animation: sppToastSlide 2.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  pointer-events: none;
+}
+.spp-toast-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+
+/* --- 3. Floating Back to Top Action --- */
+.back-to-top-btn {
+  position: fixed;
+  bottom: 74px;
+  right: 16px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  cursor: pointer;
+  z-index: 90;
+  opacity: 0;
+  transform: scale(0.8) translateY(12px);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+@media (min-width: 769px) {
+  .back-to-top-btn {
+    bottom: 24px;
+    right: 24px;
+    width: 46px;
+    height: 46px;
+  }
+}
+.back-to-top-btn.visible {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  pointer-events: auto;
+}
+.back-to-top-btn:hover {
+  background: var(--accent);
+  color: #FFFFFF;
+  border-color: var(--accent);
+  box-shadow: 0 6px 20px var(--accent-glow);
+  transform: translateY(-2px);
+}
+.back-to-top-btn:active {
+  transform: scale(0.92);
+}
+
+/* --- 4. Modern Mobile Sticky Bottom App Bar (Max-Width 768px) --- */
+.mobile-bottom-bar {
+  display: none;
+}
+@media (max-width: 768px) {
+  .mobile-bottom-bar {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid var(--border);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
+    z-index: 95;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 0.5rem;
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+  .mobile-bar-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    color: var(--text-secondary);
+    font-family: var(--font-display);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 0.35rem 0.6rem;
+    border-radius: 8px;
+    transition: all 0.15s ease;
+    position: relative;
+    text-decoration: none;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+  }
+  .mobile-bar-item.active, .mobile-bar-item:hover {
+    color: var(--accent);
+  }
+  .mobile-bar-item:active {
+    transform: scale(0.92);
+  }
+  .mobile-bar-item svg {
+    width: 20px;
+    height: 20px;
+  }
+  .mobile-bar-badge {
+    position: absolute;
+    top: 0;
+    right: 8px;
+    background: var(--accent);
+    color: #FFFFFF;
+    font-size: 9px;
+    font-weight: 900;
+    min-width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 0 2px;
+    box-shadow: 0 1px 4px var(--accent-glow);
+  }
+
+  /* Ensure page content is never hidden behind bottom bar */
+  body {
+    padding-bottom: 68px !important;
+  }
+}
+
+/* --- 5. Mobile Layout & Grid Optimizations (< 640px) --- */
+@media (max-width: 640px) {
+  /* 2-Column High-Density Product Grid on Mobile Phones */
+  #homeFeaturedGrid, #productsGrid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.65rem !important;
+  }
+  .product-card {
+    border-radius: var(--radius) !important;
+    box-shadow: var(--shadow-xs) !important;
+  }
+  .product-img-wrapper {
+    padding: 0.6rem !important;
+    aspect-ratio: 1/1 !important;
+  }
+  .product-details {
+    padding: 0.65rem !important;
+  }
+  .product-details h3 {
+    font-size: 11.5px !important;
+    line-height: 1.35 !important;
+    margin-bottom: 0.35rem !important;
+    height: 2.7em !important;
+    overflow: hidden !important;
+  }
+  .product-badge {
+    font-size: 8px !important;
+    padding: 0.15rem 0.4rem !important;
+    top: 6px !important;
+    left: 6px !important;
+  }
+  .product-details .btn-accent {
+    padding: 0.45rem 0.35rem !important;
+    font-size: 10px !important;
+    letter-spacing: 0.02em !important;
+  }
+  .product-details .btn-outline {
+    padding: 0.45rem 0.5rem !important;
+    font-size: 10px !important;
+  }
+  
+  /* Mobile Hero Improvements */
+  .hero-cinematic {
+    padding: 1.5rem 0 2rem !important;
+  }
+  .hero-split-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+  h1 {
+    font-size: 26px !important;
+    line-height: 1.15 !important;
+    margin-bottom: 0.75rem !important;
+  }
+  
+  /* Mobile Section Headers */
+  h2 {
+    font-size: 24px !important;
+    line-height: 1.2 !important;
+  }
+  
+  /* Mobile Subsystems Cards */
+  .component-system-card {
+    padding: 1.15rem !important;
+  }
+  .component-system-card h3 {
+    font-size: 17px !important;
+  }
+  .system-card-img-wrap {
+    aspect-ratio: 16/10 !important;
+    padding: 0.75rem !important;
+    margin-bottom: 0.85rem !important;
+  }
+
+  /* Mobile Blueprint & Quality Cards */
+  .blueprint-card {
+    padding: 1.15rem !important;
+  }
+  .process-step-node {
+    padding: 1.25rem !important;
+  }
+  
+  /* Mobile RFQ Console Form */
+  #consoleRfqForm {
+    padding: 0 !important;
+  }
+  section > .container > div[style*="padding: 3rem 2.5rem"],
+  section > .container > div[style*="padding: 3rem"] {
+    padding: 1.5rem 1rem !important;
+  }
+  
+  /* Mobile Bottom Sheet Modal */
+  .modal-overlay {
+    padding: 0 !important;
+    align-items: flex-end !important;
+  }
+  .modal-container {
+    max-height: 92vh !important;
+    overflow-y: auto !important;
+    border-radius: 18px 18px 0 0 !important;
+    padding: 1.5rem 1.25rem !important;
+    width: 100% !important;
+    animation: sppSheetUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+  @keyframes sppSheetUp {
+    0% { transform: translateY(100%); }
+    100% { transform: translateY(0); }
+  }
+
+  /* Mobile Quick Filter Horizontal Scroll */
+  .quick-filter-strip {
+    padding: 0.6rem 0 !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  .quick-filter-pill {
+    padding: 0.35rem 0.75rem !important;
+    font-size: 11px !important;
+  }
+
+  /* Prevent awkward text zoom on iOS focus */
+  input, select, textarea {
+    font-size: 14px !important;
+  }
+}
+
+

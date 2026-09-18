@@ -336,6 +336,9 @@
           </div>
         `;
       }).join('');
+      if (window.TSPC && window.TSPC.refreshAnimations) {
+        window.TSPC.refreshAnimations();
+      }
     }
 
     function renderPagination() {
