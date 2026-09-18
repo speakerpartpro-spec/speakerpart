@@ -1,0 +1,59 @@
+[
+  {
+    "id": "RFQ-36089",
+    "fullName": "E2E Test Client",
+    "company": "Acoustic Sound Dynamics",
+    "email": "client@sounddynamics.de",
+    "phone": "+49 89 123456",
+    "countryPort": "Germany (Hamburg Port)",
+    "category": "Transducer Components",
+    "quantityTier": "Wholesale Batch",
+    "shippingMethod": "Express Air Logistics",
+    "notes": "Testing RFQ submission from frontend to admin desk",
+    "status": "Quoted",
+    "createdAt": "2026-09-17T11:00:19.459Z",
+    "adminNotes": "Sample quote sent via WhatsApp & DHL"
+  },
+  {
+    "id": "RFQ-10492",
+    "fullName": "Marcus Vance",
+    "company": "AudioTech Pro Systems LLC",
+    "email": "m.vance@audiotechpro.com",
+    "phone": "+1 (555) 234-8890",
+    "countryPort": "United States (Los Angeles Port / Long Beach)",
+    "category": "High-Temp Voice Coils (1.0 - 5.0 inch)",
+    "quantityTier": "Commercial Batch (1,000 - 5,000 units)",
+    "shippingMethod": "DHL Express Air Courier (3-5 Days)",
+    "notes": "Looking for 75.5mm 4-layer flat CCAW voice coils on high-temp Kapton former. 8-ohm nominal impedance. Need 10 evaluation samples followed by a 2,500 pcs production run.",
+    "status": "Quoted",
+    "createdAt": "2026-09-16T14:20:00Z"
+  },
+  {
+    "id": "RFQ-10493",
+    "fullName": "Devraj Sharma",
+    "company": "SoundWave Dynamics India",
+    "email": "purchasing@soundwavedynamics.in",
+    "phone": "+91 98290 44512",
+    "countryPort": "India (Nhava Sheva / Mumbai)",
+    "category": "Acoustic Pulp Cones (6.5 - 21 inch)",
+    "quantityTier": "Pilot Batch (500 units)",
+    "shippingMethod": "Domestic Express Logistics",
+    "notes": "Need 18-inch unbleached air-dried UKP paper cones with 4-inch voice coil opening and double-rolled cloth surround for pro audio line-array subwoofers.",
+    "status": "New",
+    "createdAt": "2026-09-17T08:15:30Z"
+  },
+  {
+    "id": "RFQ-10494",
+    "fullName": "Elena Rostova",
+    "company": "Nordic Sound Rebuilding",
+    "email": "elena@nordicsound.de",
+    "phone": "+49 30 901820",
+    "countryPort": "Germany (Hamburg Port)",
+    "category": "Drop-In Master Recone Kits",
+    "quantityTier": "Commercial Batch (1,000 - 5,000 units)",
+    "shippingMethod": "LCL Consolidated Ocean Freight",
+    "notes": "Wholesale supplier inquiry for 1,200 drop-in recone assemblies compatible with 15-inch and 18-inch competition SPL drivers. Pre-shimmed gap preferred.",
+    "status": "Sample Dispatched",
+    "createdAt": "2026-09-17T11:45:10Z"
+  }
+]

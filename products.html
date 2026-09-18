@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>B2B Wholesale Products Catalog | SPEAKERPARTPRO</title>
+  <meta name="description" content="Explore the complete SPEAKERPARTPRO B2B catalog of precision loudspeaker replacement components — voice coils, paper cones, foam & rubber surrounds, spiders, and recone kits.">
+  <link rel="icon" href="/assets/icon.png">
+  <link rel="stylesheet" href="/styles/globals.css????v=spp8">
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header"></header>
+
+  <main style="padding-top: 4.25rem; padding-bottom: 4rem; flex: 1;">
+    <div class="container">
+      <!-- Catalog Header -->
+      <div style="margin-bottom: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 1.5rem;">
+        <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 12px; color: var(--text-tertiary); margin-bottom: 0.75rem;">
+          <a href="/index.html" style="color: var(--text-secondary);">Home</a> <span>/</span>
+          <span style="color: var(--accent); font-weight: 700;">B2B Catalog</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <h1 style="font-family: var(--font-display); font-size: 34px; font-weight: 900; text-transform: uppercase; color: var(--text-primary);">
+              SPEAKERPARTPRO Master Catalog
+            </h1>
+            <p style="font-size: 14px; color: var(--text-secondary); margin-top: 0.25rem;">
+              Factory-direct loudspeaker replacement parts, precision voice coils, and OEM acoustic assemblies.
+            </p>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <span style="font-family: var(--font-display); font-size: 13px; font-weight: 700; color: var(--text-tertiary); text-transform: uppercase;">Sort by:</span>
+            <select id="sortSelect" class="form-control" style="width: auto; padding: 0.4rem 0.8rem; font-size: 12px;">
+              <option value="featured">Featured / Recommended</option>
+              <option value="name_asc">Name: A to Z</option>
+              <option value="name_desc">Name: Z to A</option>
+              <option value="price_asc">Price: Low to High</option>
+              <option value="price_desc">Price: High to Low</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Layout: Sidebar Filters + Products Grid -->
+      <div style="display: grid; grid-template-columns: 260px 1fr; gap: 2rem;" class="catalog-layout">
+        <!-- Sidebar Filters -->
+        <aside style="background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem; height: fit-content;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem;">
+            <h3 style="font-family: var(--font-display); font-size: 14px; font-weight: 800; text-transform: uppercase; color: var(--text-primary); letter-spacing: 0.08em;">
+              Filter Catalog
+            </h3>
+            <button id="clearFiltersBtn" style="background: transparent; border: none; font-family: var(--font-display); font-size: 12px; color: var(--accent); cursor: pointer; font-weight: 700; text-transform: uppercase;">
+              Reset All
+            </button>
+          </div>
+
+          <!-- Search filter box -->
+          <div class="form-group">
+            <label class="form-label">Search Keyword</label>
+            <input type="text" id="catalogSearchInput" class="form-control" placeholder="e.g. 75.5mm, kapton, 12 inch...">
+          </div>
+
+          <!-- Categories List Filter -->
+          <div style="margin-top: 1.5rem;">
+            <label class="form-label">Product Categories</label>
+            <div id="categoryFilterList" style="display: flex; flex-direction: column; gap: 0.4rem; max-height: 380px; overflow-y: auto;">
+              <div style="color: var(--text-tertiary); font-size: 12px;">Loading categories...</div>
+            </div>
+          </div>
+
+          <!-- Fast RFQ Button in Sidebar -->
+          <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+            <button onclick="window.TSPC.openRfqModal()" class="btn-accent" style="width: 100%; font-size: 12px; padding: 0.75rem;">
+              Request Custom OEM Quote
+            </button>
+          </div>
+        </aside>
+
+        <!-- Catalog Products Container -->
+        <section>
+          <!-- Active Filter Chips & Results Count -->
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;">
+            <div id="resultsCount" style="font-size: 13px; color: var(--text-tertiary);">
+              Showing <strong style="color: var(--text-primary);" id="shownCount">0</strong> products
+            </div>
+            <div id="activeChips" style="display: flex; gap: 0.5rem; flex-wrap: wrap;"></div>
+          </div>
+
+          <!-- Products Card Grid -->
+          <div id="productsGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1.25rem;">
+            <div style="grid-column: 1 / -1; text-align: center; padding: 4rem; color: var(--text-tertiary);">
+              Loading SPEAKERPARTPRO catalog...
+            </div>
+          </div>
+
+          <!-- Pagination / Load More -->
+          <div id="paginationControls" style="margin-top: 2.5rem; display: flex; justify-content: center; gap: 0.5rem;"></div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <style>
+    @media (max-width: 860px) {
+      .catalog-layout {
+        grid-template-columns: 1fr !important;
+      }
+    }
+    .category-filter-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.45rem 0.6rem;
+      border-radius: 6px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .category-filter-item:hover, .category-filter-item.active {
+      background: var(--hover-bg);
+      color: var(--text-primary);
+    }
+    .category-filter-item.active {
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .category-count-badge {
+      font-size: 10px;
+      background: var(--accent-light); color: var(--accent);
+      padding: 2px 6px;
+      border-radius: 10px;
+      color: var(--text-tertiary);
+    }
+  </style>
+
+  <!-- Site Footer -->
+  <footer class="site-footer"></footer>
+
+  <script src="/scripts/app.js????v=spp8"></script>
+  <script>
+    let allProducts = [];
+    let allCategories = [];
+    let filteredProducts = [];
+    let selectedCategory = '';
+    let searchQuery = '';
+    let currentPage = 1;
+    const PAGE_SIZE = 24;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('category')) selectedCategory = urlParams.get('category');
+    if (urlParams.get('q')) searchQuery = urlParams.get('q');
+    if (urlParams.get('search')) searchQuery = urlParams.get('search');
+
+    async function initCatalog() {
+      try {
+        const [prodRes, catRes] = await Promise.all([
+          fetch('/data/products.json'),
+          fetch('/data/categories.json')
+        ]);
+        allProducts = await prodRes.json();
+        allCategories = await catRes.json();
+
+        renderCategoryFilters();
+
+        const searchInput = document.getElementById('catalogSearchInput');
+        if (searchInput) {
+          searchInput.value = searchQuery;
+          searchInput.addEventListener('input', (e) => {
+            searchQuery = e.target.value.trim().toLowerCase();
+            currentPage = 1;
+            applyFilters();
+          });
+        }
+
+        document.getElementById('sortSelect').addEventListener('change', () => {
+          applyFilters();
+        });
+
+        document.getElementById('clearFiltersBtn').addEventListener('click', () => {
+          selectedCategory = '';
+          searchQuery = '';
+          if (searchInput) searchInput.value = '';
+          document.getElementById('sortSelect').value = 'featured';
+          currentPage = 1;
+          renderCategoryFilters();
+          applyFilters();
+        });
+
+        applyFilters();
+      } catch (e) {
+        console.error('Catalog load error', e);
+      }
+    }
+
+    function renderCategoryFilters() {
+      const catList = document.getElementById('categoryFilterList');
+      if (!catList) return;
+
+      const counts = {};
+      allProducts.forEach(p => {
+        const slug = p.category_slug || '';
+        counts[slug] = (counts[slug] || 0) + 1;
+      });
+
+      let html = `
+        <div class="category-filter-item ${selectedCategory === '' ? 'active' : ''}" onclick="selectCategory('')">
+          <span>All Categories</span>
+          <span class="category-count-badge">${allProducts.length}</span>
+        </div>
+      `;
+
+      allCategories.forEach(cat => {
+        const count = counts[cat.slug] || 0;
+        const isActive = selectedCategory === cat.slug;
+        html += `
+          <div class="category-filter-item ${isActive ? 'active' : ''}" onclick="selectCategory('${cat.slug}')">
+            <span>${cat.name}</span>
+            <span class="category-count-badge">${count}</span>
+          </div>
+        `;
+      });
+
+      catList.innerHTML = html;
+    }
+
+    function selectCategory(slug) {
+      selectedCategory = slug;
+      currentPage = 1;
+      renderCategoryFilters();
+      applyFilters();
+    }
+
+    function applyFilters() {
+      filteredProducts = allProducts.filter(p => {
+        if (selectedCategory && p.category_slug !== selectedCategory) {
+          return false;
+        }
+
+        if (searchQuery) {
+          const haystack = `${p.name} ${p.short_desc || ''} ${p.tags || ''} ${p.applications || ''}`.toLowerCase();
+          if (!haystack.includes(searchQuery)) return false;
+        }
+
+        return true;
+      });
+
+      const sort = document.getElementById('sortSelect').value;
+      if (sort === 'name_asc') {
+        filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
+      } else if (sort === 'name_desc') {
+        filteredProducts.sort((a, b) => b.name.localeCompare(a.name));
+      } else if (sort === 'price_asc') {
+        filteredProducts.sort((a, b) => {
+          const pa = a.variants && a.variants.price ? a.variants.price : 999999;
+          const pb = b.variants && b.variants.price ? b.variants.price : 999999;
+          return pa - pb;
+        });
+      } else if (sort === 'price_desc') {
+        filteredProducts.sort((a, b) => {
+          const pa = a.variants && a.variants.price ? a.variants.price : 0;
+          const pb = b.variants && b.variants.price ? b.variants.price : 0;
+          return pb - pa;
+        });
+      }
+
+      renderProductsGrid();
+      renderPagination();
+    }
+
+    function renderProductsGrid() {
+      const grid = document.getElementById('productsGrid');
+      const shownCount = document.getElementById('shownCount');
+      if (!grid) return;
+
+      shownCount.textContent = filteredProducts.length;
+
+      if (filteredProducts.length === 0) {
+        grid.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 4rem 1rem; color: var(--text-tertiary);">
+            <p style="font-size: 16px; color: var(--text-primary); font-weight: 700; margin-bottom: 0.5rem;">No products found</p>
+            <p style="font-size: 13px;">Try adjusting your search terms or clearing the selected category filters.</p>
+          </div>
+        `;
+        return;
+      }
+
+      const startIndex = (currentPage - 1) * PAGE_SIZE;
+      const pageItems = filteredProducts.slice(startIndex, startIndex + PAGE_SIZE);
+
+      grid.innerHTML = pageItems.map(p => {
+        const img = p.featured_image || '/assets/voice-coil-popout.png';
+        const price = p.variants && p.variants.price ? window.TSPC.formatPrice(p.variants.price) : 'B2B RFQ';
+        const badge = p.seo_meta && p.seo_meta.badge_text ? p.seo_meta.badge_text : (p.is_featured ? 'PRO SPEC' : null);
+
+        return `
+          <div class="product-card">
+            <a href="/product-detail.html?slug=${p.slug}" style="display: block;">
+              <div class="product-img-wrapper">
+                ${badge ? `<span class="product-badge">${badge}</span>` : ''}
+                <img src="${img}" alt="${p.name}" loading="lazy" onerror="this.src='/assets/voice-coil-popout.png'">
+              </div>
+            </a>
+            <div class="product-details">
+              <div>
+                <div style="font-family: var(--font-display); font-size: 11px; text-transform: uppercase; color: var(--accent); letter-spacing: 0.08em; margin-bottom: 0.3rem;">
+                  ${p.category_name || 'Component'}
+                </div>
+                <a href="/product-detail.html?slug=${p.slug}" style="display: block;">
+                  <h3 style="font-size: 13px; font-weight: 700; color: var(--text-primary); line-height: 1.4; margin-bottom: 0.5rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;" title="${p.name}">
+                    ${p.name}
+                  </h3>
+                </a>
+                <div style="font-size: 11px; color: var(--text-tertiary); margin-bottom: 0.75rem;">
+                  MOQ: ${p.moq || '500 units'}
+                </div>
+              </div>
+              <div>
+                <div style="font-family: var(--font-mono); font-size: 14px; font-weight: 700; color: var(--accent); margin-bottom: 0.75rem;" data-usd-price="${p.variants && p.variants.price ? p.variants.price : ''}">
+                  ${price}
+                </div>
+                <div style="display: flex; gap: 0.5rem;">
+                  <button onclick="window.TSPC.addToCart({ id: '${p.id}', name: '${p.name.replace(/'/g, "\\'")}', slug: '${p.slug}', featured_image: '${img}', moq: '${p.moq || '500 units'}', variants: { price: ${p.variants && p.variants.price ? p.variants.price : 'null'} } })" class="btn-accent" style="flex: 1; padding: 0.5rem; font-size: 11px;">
+                    Add to RFQ
+                  </button>
+                  <a href="/product-detail.html?slug=${p.slug}" style="display: flex;">
+                    <button class="btn-outline" style="padding: 0.5rem 0.75rem; font-size: 11px;">
+                      Specs
+                    </button>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderPagination() {
+      const container = document.getElementById('paginationControls');
+      if (!container) return;
+
+      const totalPages = Math.ceil(filteredProducts.length / PAGE_SIZE);
+      if (totalPages <= 1) {
+        container.innerHTML = '';
+        return;
+      }
+
+      let html = '';
+      for (let i = 1; i <= totalPages; i++) {
+        const isActive = i === currentPage;
+        html += `
+          <button onclick="goToPage(${i})" style="width: 36px; height: 36px; border-radius: 8px; border: 1px solid ${isActive ? 'var(--accent)' : 'var(--border)'}; background: ${isActive ? 'var(--accent)' : 'var(--card)'}; color: var(--text-primary); font-family: var(--font-display); font-weight: 700; cursor: pointer; box-shadow: ${isActive ? '0 0 10px var(--accent-glow)' : 'none'};">
+            ${i}
+          </button>
+        `;
+      }
+      container.innerHTML = html;
+    }
+
+    function goToPage(page) {
+      currentPage = page;
+      renderProductsGrid();
+      renderPagination();
+      window.scrollTo({ top: 180, behavior: 'smooth' });
+    }
+
+    document.addEventListener('DOMContentLoaded', initCatalog);
+  </script>
+</body>
+</html>

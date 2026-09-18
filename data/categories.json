@@ -1,0 +1,194 @@
+[
+  {
+    "id": "1e0d0c26-6d79-41c1-a122-121b981c2c2b",
+    "name": "Voice Coils",
+    "slug": "voice-coils",
+    "description": "Reliable voice coils made for smooth sound, better performance, and long-lasting durability. Available in different sizes and specifications to meet the needs of speaker manufacturers, repair professionals, and audio enthusiasts.",
+    "image_url": null,
+    "is_hidden": false,
+    "sort_order": 1,
+    "seo_meta": {
+      "title": "Voice Coils",
+      "description": "Reliable voice coils made for smooth sound, better performance, and long-lasting durability. Available in different sizes and specifications to meet the needs of speaker manufacturers, repair professionals, and audio enthusiasts."
+    },
+    "created_at": "2026-07-15T14:54:14.327675+00:00",
+    "updated_at": "2026-07-15T14:54:14.327675+00:00",
+    "product_count": 22
+  },
+  {
+    "id": "4acc5484-6383-4423-8944-fb821b856c02",
+    "name": "Speaker Cones",
+    "slug": "speaker-cones",
+    "description": "Durable speaker cones designed to deliver clear, balanced sound with reliable performance. Available in various sizes and materials for speaker manufacturing, reconing, and repair applications.",
+    "image_url": null,
+    "is_hidden": false,
+    "sort_order": 2,
+    "seo_meta": {
+      "title": "Speaker Cones",
+      "description": "Durable speaker cones designed to deliver clear, balanced sound with reliable performance. Available in various sizes and materials for speaker manufacturing, reconing, and repair applications."
+    },
+    "created_at": "2026-07-15T14:55:48.204462+00:00",
+    "updated_at": "2026-07-15T14:55:48.204462+00:00",
+    "product_count": 57
+  },
+  {
+    "id": "91c0483b-4925-4f46-a2d7-fcd1ec462ef2",
+    "name": "Dust Caps",
+    "slug": "dust-caps",
+    "description": "Quality dust caps designed to protect the speaker's voice coil from dust and debris while giving your speaker a clean, professional finish. Available in various sizes, materials, and styles for manufacturing and repair.",
+    "image_url": null,
+    "is_hidden": false,
+    "sort_order": 4,
+    "seo_meta": {
+      "title": "Dust Caps",
+      "description": "Quality dust caps designed to protect the speaker's voice coil from dust and debris while giving your speaker a clean, professional finish. Available in various sizes, materials, and styles for manufacturing and repair."
+    },
+    "created_at": "2026-07-15T15:00:17.715463+00:00",
+    "updated_at": "2026-07-15T15:00:17.715463+00:00",
+    "product_count": 7
+  },
+  {
+    "id": "f827688d-f86f-4963-96dd-a21b431bef18",
+    "name": "Speaker Spiders",
+    "slug": "speaker-spiders",
+    "description": "Precision-made speaker spiders that provide stability, control, and reliable cone movement. Available in multiple sizes and stiffness options for speaker manufacturing and repair.",
+    "image_url": null,
+    "is_hidden": false,
+    "sort_order": 4,
+    "seo_meta": {
+      "title": "Speaker Spiders",
+      "description": "Precision-made speaker spiders that provide stability, control, and reliable cone movement. Available in multiple sizes and stiffness options for speaker manufacturing and repair."
+    },
+    "created_at": "2026-07-15T14:58:25.962553+00:00",
+    "updated_at": "2026-07-15T14:58:25.962553+00:00",
+    "product_count": 23
+  },
+  {
+    "id": "2f66de45-ad95-4aba-9b3f-db9de5980818",
+    "name": "Speaker Surrounds",
+    "slug": "speaker-surrounds",
+    "description": "High-quality speaker surrounds designed to restore smooth cone movement and improve sound performance. Available in various sizes and materials for speaker repair, reconing, and manufacturing.",
+    "image_url": null,
+    "is_hidden": false,
+    "sort_order": 4,
+    "seo_meta": {
+      "title": "Speaker Surrounds",
+      "description": "High-quality speaker surrounds designed to restore smooth cone movement and improve sound performance. Available in various sizes and materials for speaker repair, reconing, and manufacturing."
+    },
+    "created_at": "2026-07-15T14:57:20.114703+00:00",
+    "updated_at": "2026-07-15T14:58:46.569+00:00",
+    "product_count": 58
+  },
+  {
+    "id": "07164bc4-107d-4c5a-b2bb-7dce866b0db8",
+    "name": "Diaphragms",
+    "slug": "diaphragms",
+    "description": "High-quality speaker diaphragms designed to deliver clear, accurate sound with reliable performance. Available in various sizes and types for compression drivers, tweeters, and professional speaker repair.",
+    "image_url": null,
+    "is_hidden": false,
+    "sort_order": 6,
+    "seo_meta": {
+      "title": "Diaphragms",
+      "description": "High-quality speaker diaphragms designed to deliver clear, accurate sound with reliable performance. Available in various sizes and types for compression drivers, tweeters, and professional speaker repair."
+    },
+    "created_at": "2026-07-15T15:01:53.370352+00:00",
+    "updated_at": "2026-07-15T15:01:53.370352+00:00",
+    "product_count": 22
+  },
+  {
+    "id": "0d6db482-7682-4e82-b0e6-6d6d0962bc4d",
+    "name": "Lead Wires",
+    "slug": "lead-wires",
+    "description": "Flexible, durable lead wires designed for reliable signal transfer and long-lasting performance. Available in various lengths and specifications for speaker manufacturing and repair.",
+    "image_url": null,
+    "is_hidden": false,
+    "sort_order": 7,
+    "seo_meta": {
+      "title": "Lead Wires",
+      "description": "Flexible, durable lead wires designed for reliable signal transfer and long-lasting performance. Available in various lengths and specifications for speaker manufacturing and repair."
+    },
+    "created_at": "2026-07-15T15:03:03.875811+00:00",
+    "updated_at": "2026-07-15T15:03:03.875811+00:00",
+    "product_count": 0
+  },
+  {
+    "id": "1833a171-d264-4239-9042-176b6a8e673d",
+    "name": "Speaker Terminals",
+    "slug": "speaker-terminals",
+    "description": "Durable speaker terminals designed to provide secure, reliable electrical connections for consistent audio performance. Available in various sizes and styles for speaker manufacturing and repair.",
+    "image_url": null,
+    "is_hidden": false,
+    "sort_order": 7,
+    "seo_meta": {
+      "title": "Speaker Terminals",
+      "description": "Durable speaker terminals designed to provide secure, reliable electrical connections for consistent audio performance. Available in various sizes and styles for speaker manufacturing and repair."
+    },
+    "created_at": "2026-07-15T15:04:07.168266+00:00",
+    "updated_at": "2026-07-15T15:04:07.168266+00:00",
+    "product_count": 4
+  },
+  {
+    "id": "e8b098e6-735e-427c-b038-39b6917e5e09",
+    "name": "Subwoofers",
+    "slug": "subwoofers",
+    "description": "High-performance subwoofers built to deliver deep, powerful bass with clarity and reliability. Available in various sizes and power ratings for professional audio systems and custom speaker projects.",
+    "image_url": null,
+    "is_hidden": false,
+    "sort_order": 9,
+    "seo_meta": {
+      "title": "Subwoofers",
+      "description": "High-performance subwoofers built to deliver deep, powerful bass with clarity and reliability. Available in various sizes and power ratings for professional audio systems and custom speaker projects."
+    },
+    "created_at": "2026-07-15T15:05:27.73412+00:00",
+    "updated_at": "2026-07-15T15:05:27.73412+00:00",
+    "product_count": 0
+  },
+  {
+    "id": "cc1c6508-0d4e-42dd-9300-60e56a670deb",
+    "name": "Custom Repair Kits",
+    "slug": "custom-repair-kits",
+    "description": "Turnkey custom branded speaker repair kits for audio resellers and repair workshops. Includes precision foam/rubber surrounds, specialized speaker adhesives, applicators, and custom manuals with your logo branding.",
+    "image_url": "/custom-repair-kits.jpg",
+    "is_hidden": false,
+    "sort_order": 10,
+    "seo_meta": {
+      "title": "Custom Speaker Repair Kits — Wholesale & Private Label",
+      "description": "Wholesale custom speaker repair kits with private label branding, custom manuals, foam surrounds, and repair adhesives."
+    },
+    "created_at": "2026-07-17T09:42:25.890714+00:00",
+    "updated_at": "2026-07-17T09:42:25.890714+00:00",
+    "product_count": 1
+  },
+  {
+    "id": "4ace09b9-4486-4de4-9fb5-b3c6def3206d",
+    "name": "Speaker Edge & Ports",
+    "slug": "speaker-edge-ports",
+    "description": "Premium ferrite and neodymium magnets engineered for high magnetic flux density and acoustic motor strength. Suited for B2B industrial speaker manufacturing.",
+    "image_url": null,
+    "is_hidden": false,
+    "sort_order": 11,
+    "seo_meta": {
+      "title": "Speaker Edge & Ports",
+      "description": "Premium paper ports, cardboard tubes, and EVA speaker gaskets designed for acoustic enclosures."
+    },
+    "created_at": "2026-07-17T09:42:26.466412+00:00",
+    "updated_at": "2026-07-17T09:42:26.466412+00:00",
+    "product_count": 5
+  },
+  {
+    "id": "dc76a51e-3908-4c64-a39c-9107e2b602b4",
+    "name": "Custom Recone Kits",
+    "slug": "custom-recone-kits",
+    "description": "Complete professional speaker recone kits customized with voice coils, cones, spiders, dust caps, and lead wires for high-power woofers, subwoofers, and PA speakers.",
+    "image_url": "/recone-kit-banner.jpg",
+    "is_hidden": false,
+    "sort_order": 12,
+    "seo_meta": {
+      "title": "Custom Speaker Recone Kits — Wholesale & OEM",
+      "description": "Precision-matched custom speaker recone kits for high-power woofers, pro audio transducers, and subwoofers."
+    },
+    "created_at": "2026-08-15T07:02:46.114303+00:00",
+    "updated_at": "2026-08-15T07:02:46.114303+00:00",
+    "product_count": 1
+  }
+]
