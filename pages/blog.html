@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Knowledge Hub & Engineering Guides | SPEAKERPARTPRO</title>
+  <meta name="description" content="Technical engineering guides, material selection comparisons, voice coil manufacturing insights, and reconing tutorials from SPEAKERPARTPRO.">
+  <link rel="icon" href="/assets/icon.png">
+  <link rel="stylesheet" href="/styles/globals.css????v=spp8">
+</head>
+<body>
+
+  <header class="site-header"></header>
+
+  <main style="padding-top: 4.25rem; padding-bottom: 5rem; flex: 1;">
+    <div class="container">
+      
+      <!-- Page Header -->
+      <div style="border-bottom: 1px solid var(--border); padding-bottom: 2rem; margin-bottom: 3.5rem;">
+        <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 12px; color: #777; margin-bottom: 0.75rem;">
+          <a href="/index.html" style="color: var(--text-secondary);">Home</a> <span>/</span>
+          <span style="color: var(--accent); font-weight: 700;">Knowledge Hub</span>
+        </div>
+        <span style="font-family: var(--font-display); font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); display: block; margin-bottom: 0.5rem;">
+          SPEAKERPARTPRO TRANSDUCER ENGINEERING
+        </span>
+        <h1 style="font-family: var(--font-display); font-size: 38px; font-weight: 900; text-transform: uppercase; color: var(--text-primary);">
+          Loudspeaker Engineering Knowledge Hub
+        </h1>
+        <p style="font-size: 14px; color: var(--text-secondary); margin-top: 0.5rem; max-width: 700px;">
+          Engineering resources, material guides, dimensional measurement tutorials, and wholesale procurement strategies written by the SPEAKERPARTPRO acoustic team.
+        </p>
+      </div>
+
+      <!-- Blog Articles Grid -->
+      <div id="blogGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2rem;">
+        <div style="grid-column: 1 / -1; text-align: center; padding: 4rem; color: var(--text-tertiary);">
+          Loading articles...
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer"></footer>
+  <script src="/scripts/app.js????v=spp8"></script>
+  <script>
+    async function loadBlogs() {
+      const grid = document.getElementById('blogGrid');
+      try {
+        const res = await fetch('/data/blogs.json');
+        const blogs = await res.json();
+
+        grid.innerHTML = blogs.map(b => `
+          <article style="background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;" onmouseenter="this.style.borderColor='var(--accent)'; this.style.boxShadow='0 8px 24px rgba(255,90,0,0.2)'" onmouseleave="this.style.borderColor='var(--border)'; this.style.boxShadow='none'">
+            <div style="padding: 1.75rem; display: flex; flex-direction: column; flex: 1; justify-content: space-between;">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                  <span style="font-family: var(--font-display); font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--accent); letter-spacing: 0.08em;">
+                    ${b.category || 'Technical Guide'}
+                  </span>
+                  <span style="font-size: 11px; color: #666;">
+                    ${b.readTime || '5 min read'}
+                  </span>
+                </div>
+                <a href="/blog-post.html?slug=${b.slug}" style="display: block;">
+                  <h3 style="font-family: var(--font-display); font-size: 20px; font-weight: 800; color: var(--text-primary); line-height: 1.35; margin-bottom: 0.75rem;">
+                    ${b.title}
+                  </h3>
+                </a>
+                <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1.5rem; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+                  ${b.description || 'Comprehensive technical breakdown from the SPEAKERPARTPRO engineering team.'}
+                </p>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 1rem; font-size: 12px; color: #777;">
+                <span>By ${b.author || 'SPEAKERPARTPRO Team'}</span>
+                <a href="/blog-post.html?slug=${b.slug}" style="color: var(--accent); font-family: var(--font-display); font-weight: 800; text-transform: uppercase; display: flex; align-items: center; gap: 0.25rem;">
+                  Read Article →
+                </a>
+              </div>
+            </div>
+          </article>
+        `).join('');
+      } catch (e) {
+        grid.innerHTML = '<div style="color: var(--text-tertiary); text-align: center; grid-column: 1 / -1;">Failed to load blog articles.</div>';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadBlogs);
+  </script>
+</body>
+</html>

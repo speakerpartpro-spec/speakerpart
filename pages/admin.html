@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SPEAKERPARTPRO | Factory B2B Admin Console</title>
+  <link rel="icon" href="/assets/icon.png">
+  <link rel="stylesheet" href="/styles/globals.css?v=spp9">
+  <style>
+    /* Admin specific layout styles */
+    body {
+      background: #F8F9FA;
+      color: #111215;
+      font-family: var(--font-body);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+    }
+    .admin-wrapper {
+      display: flex;
+      width: 100%;
+      min-height: 100vh;
+    }
+    .admin-sidebar {
+      width: 260px;
+      background: #FFFFFF;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      z-index: 40;
+    }
+    .admin-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1.25rem;
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-secondary);
+      text-decoration: none;
+      border-left: 3px solid transparent;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .admin-nav-item:hover, .admin-nav-item.active {
+      background: var(--bg-secondary);
+      color: var(--accent);
+      border-left-color: var(--accent);
+    }
+    .admin-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+    .admin-topbar {
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 30;
+    }
+    .admin-content {
+      padding: 2rem;
+      flex: 1;
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .stat-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-xs);
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--accent);
+    }
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: 32px;
+      font-weight: 900;
+      color: var(--text-primary);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .data-table-wrap {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-xs);
+    }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
+    }
+    .data-table th {
+      background: var(--bg-secondary);
+      padding: 0.85rem 1.25rem;
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border);
+    }
+    .data-table td {
+      padding: 0.95rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+    .data-table tr:hover td {
+      background: #FAFAFA;
+    }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 0.2rem 0.6rem;
+      border-radius: var(--radius-sm);
+    }
+    .status-new { background: #FEF3C7; color: #D97706; border: 1px solid #FDE68A; }
+    .status-quoted { background: #E0E7FF; color: #4338CA; border: 1px solid #C7D2FE; }
+    .status-dispatched { background: #DCFCE7; color: #15803D; border: 1px solid #BBF7D0; }
+    .status-closed { background: #F3F4F6; color: #6B7280; border: 1px solid #E5E7EB; }
+
+    /* Modal Styling */
+    .admin-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .admin-modal-backdrop.open { display: flex; }
+    .admin-modal-box {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      max-width: 650px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow-xl);
+      padding: 2rem;
+      position: relative;
+    }
+
+    /* Auth Gate Overlay */
+    #authOverlay {
+      position: fixed;
+      inset: 0;
+      background: #FFFFFF;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. Authentication Security Gate Overlay -->
+  <div id="authOverlay">
+    <div style="max-width: 420px; width: 100%; background: #FFFFFF; border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 2.5rem 2rem; box-shadow: var(--shadow-lg); text-align: center;">
+      <img src="/assets/speakerpartpro-horizontal-light.png?v=spp9" alt="SPEAKERPARTPRO" style="height: 38px; width: auto; margin: 0 auto 1.25rem; display: block;">
+      <h2 style="font-family: var(--font-display); font-size: 20px; font-weight: 800; text-transform: uppercase; color: var(--text-primary); margin-bottom: 0.5rem;">
+        Factory Admin Console
+      </h2>
+      <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 1.75rem;">
+        Enter your administrative passcode to manage products, quotes, and factory settings.
+      </p>
+      <form id="loginForm" onsubmit="event.preventDefault(); handleAdminLogin();">
+        <div class="form-group" style="text-align: left; margin-bottom: 1.25rem;">
+          <label class="form-label">Administrator Passcode</label>
+          <input type="password" id="passcodeInput" class="form-control" placeholder="Enter admin passcode..." required autofocus>
+          <span style="font-size: 11px; color: var(--text-tertiary); margin-top: 0.35rem; display: block;">Default factory code: <code style="color: var(--accent); font-weight: 700;">admin123</code></span>
+        </div>
+        <div id="loginError" style="display: none; color: #DC2626; font-size: 12px; margin-bottom: 1rem; font-weight: 600;"></div>
+        <button type="submit" class="btn-accent" style="width: 100%; padding: 0.75rem; font-size: 13px;">
+          Authenticate & Enter
+        </button>
+      </form>
+      <div style="margin-top: 1.5rem; border-top: 1px solid var(--border); padding-top: 1rem;">
+        <a href="/index.html" style="font-size: 12px; color: var(--text-secondary); text-decoration: none;">← Return to Public Website</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Main Admin Dashboard Shell -->
+  <div class="admin-wrapper" id="adminApp" style="display: none;">
+    
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <!-- Logo Header -->
+      <div style="padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border);">
+        <a href="/index.html" style="display: block; margin-bottom: 0.35rem;">
+          <img src="/assets/speakerpartpro-horizontal-light.png?v=spp9" alt="SPEAKERPARTPRO" style="height: 30px; width: auto; object-fit: contain;">
+        </a>
+        <div style="font-size: 10px; font-family: var(--font-mono); color: var(--accent); font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;">
+          FACTORY PORTAL • SPEAKERPARTPRO
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav style="padding: 1rem 0; flex: 1; display: flex; flex-direction: column; gap: 0.25rem;">
+        <div class="admin-nav-item active" data-tab="dashboard" onclick="switchTab('dashboard')">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
+          <span>Dashboard</span>
+        </div>
+
+        <div class="admin-nav-item" data-tab="products" onclick="switchTab('products')">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+            <line x1="12" y1="22.08" x2="12" y2="12"></line>
+          </svg>
+          <span>Products Catalog</span>
+        </div>
+
+        <div class="admin-nav-item" data-tab="inquiries" onclick="switchTab('inquiries')">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+          <span style="flex: 1;">B2B Inquiries</span>
+          <span id="inquiryBadgeCount" style="background: var(--accent); color: #fff; font-size: 10px; font-weight: 800; padding: 0.15rem 0.5rem; border-radius: 999px;">3</span>
+        </div>
+
+        <div class="admin-nav-item" data-tab="categories" onclick="switchTab('categories')">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line>
+            <line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line>
+            <line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line>
+          </svg>
+          <span>Categories (12)</span>
+        </div>
+
+        <div class="admin-nav-item" data-tab="settings" onclick="switchTab('settings')">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+          <span>Factory Settings</span>
+        </div>
+      </nav>
+
+      <!-- Sidebar Footer -->
+      <div style="padding: 1.25rem 1.5rem; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 0.65rem;">
+        <a href="/index.html" target="_blank" style="display: flex; align-items: center; gap: 0.5rem; font-size: 12px; color: var(--text-secondary); text-decoration: none; font-weight: 600;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          <span>View Public Site</span>
+        </a>
+        <button onclick="handleAdminLogout()" style="background: transparent; border: none; text-align: left; padding: 0; display: flex; align-items: center; gap: 0.5rem; font-size: 12px; color: #DC2626; cursor: pointer; font-weight: 600;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          <span>Sign Out</span>
+        </button>
+        <a href="https://mehrunidigital.vercel.app/" target="_blank" rel="noopener noreferrer" style="margin-top: 0.5rem; padding-top: 0.75rem; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 0.45rem; text-decoration: none; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'" title="Mhrn_ · websites, brands & the system underneath">
+          <span style="font-family: var(--font-display); font-size: 10px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-tertiary);">BUILT BY</span>
+          <span style="display: inline-flex; align-items: baseline; font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 900; color: var(--text-primary); letter-spacing: -0.02em;">
+            Mhrn<span style="display: inline-block; width: 10px; height: 2.5px; background: #C026D3; margin-left: 1.5px; border-radius: 1px; vertical-align: baseline;"></span>
+          </span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Workspace Area -->
+    <main class="admin-main">
+      
+      <!-- Topbar -->
+      <header class="admin-topbar">
+        <div>
+          <h1 id="topbarTitle" style="font-family: var(--font-display); font-size: 18px; font-weight: 800; text-transform: uppercase; color: var(--text-primary); margin: 0;">
+            Factory Dashboard
+          </h1>
+        </div>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <div style="display: flex; align-items: center; gap: 0.4rem; font-size: 11px; font-weight: 700; color: #16A34A; background: #DCFCE7; padding: 0.3rem 0.65rem; border-radius: 999px;">
+            <span style="width: 6px; height: 6px; border-radius: 50%; background: #16A34A; display: inline-block;"></span>
+            <span>Jaipur Node Live</span>
+          </div>
+          <span style="font-size: 12px; color: var(--text-secondary); font-weight: 600;">Admin: SPEAKERPARTPRO Operations</span>
+        </div>
+      </header>
+
+      <!-- Content Container -->
+      <div class="admin-content">
+
+        <!-- TAB 1: DASHBOARD -->
+        <section id="tab-dashboard">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+            
+            <div class="stat-card">
+              <div style="font-size: 11px; font-family: var(--font-display); font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-secondary); margin-bottom: 0.5rem;">
+                Total Catalog SKUs
+              </div>
+              <div class="stat-number" id="statProductsCount">200</div>
+              <span style="font-size: 11px; color: #16A34A; font-weight: 600;">✓ 100% In Stock & Tooling Ready</span>
+            </div>
+
+            <div class="stat-card">
+              <div style="font-size: 11px; font-family: var(--font-display); font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-secondary); margin-bottom: 0.5rem;">
+                B2B RFQ Inquiries
+              </div>
+              <div class="stat-number" id="statInquiriesCount">3</div>
+              <span style="font-size: 11px; color: var(--accent); font-weight: 600;" id="statNewInquiriesCount">1 New Awaiting Proforma</span>
+            </div>
+
+            <div class="stat-card">
+              <div style="font-size: 11px; font-family: var(--font-display); font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-secondary); margin-bottom: 0.5rem;">
+                Component Categories
+              </div>
+              <div class="stat-number" id="statCategoriesCount">12</div>
+              <span style="font-size: 11px; color: var(--text-tertiary);">Voice coils, Cones, Surrounds...</span>
+            </div>
+
+            <div class="stat-card">
+              <div style="font-size: 11px; font-family: var(--font-display); font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-secondary); margin-bottom: 0.5rem;">
+                Knowledge Articles
+              </div>
+              <div class="stat-number" id="statBlogsCount">8</div>
+              <span style="font-size: 11px; color: #16A34A; font-weight: 600;">Technical Transducer Guides</span>
+            </div>
+
+          </div>
+
+          <!-- Quick Action Bar -->
+          <div style="background: #FFFFFF; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem 1.5rem; margin-bottom: 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+            <div>
+              <h3 style="font-family: var(--font-display); font-size: 15px; font-weight: 800; text-transform: uppercase; color: var(--text-primary); margin: 0 0 0.25rem;">
+                Quick Operations
+              </h3>
+              <p style="font-size: 12px; color: var(--text-secondary); margin: 0;">Perform frequent catalog and quoting actions directly</p>
+            </div>
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+              <button onclick="openAddProductModal()" class="btn-accent" style="padding: 0.5rem 1rem; font-size: 12px;">
+                + Add New Component
+              </button>
+              <button onclick="exportInquiriesCsv()" class="btn-outline" style="padding: 0.5rem 1rem; font-size: 12px;">
+                📥 Export Quotes CSV
+              </button>
+              <button onclick="switchTab('inquiries')" class="btn-outline" style="padding: 0.5rem 1rem; font-size: 12px;">
+                View Recent RFQs
+              </button>
+            </div>
+          </div>
+
+          <!-- Recent Inquiries Preview Table -->
+          <div class="data-table-wrap">
+            <div style="padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+              <h3 style="font-family: var(--font-display); font-size: 14px; font-weight: 800; text-transform: uppercase; color: var(--text-primary); margin: 0;">
+                Latest Incoming Wholesale Quotations
+              </h3>
+              <a href="#" onclick="switchTab('inquiries'); return false;" style="font-size: 12px; color: var(--accent); font-weight: 700; text-decoration: none;">View All RFQs →</a>
+            </div>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Buyer / Company</th>
+                  <th>Destination Port</th>
+                  <th>Component Category</th>
+                  <th>Quantity Tier</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="dashboardInquiriesBody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- TAB 2: PRODUCTS CATALOG MANAGER -->
+        <section id="tab-products" style="display: none;">
+          <!-- Action header -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center;">
+              <!-- Search box -->
+              <input type="text" id="adminProductSearch" class="form-control" placeholder="Search by SKU or title..." style="width: 260px; font-size: 12px; padding: 0.5rem 0.85rem;" oninput="filterProducts()">
+              <!-- Category filter -->
+              <select id="adminCategoryFilter" class="form-control" style="width: 200px; font-size: 12px; padding: 0.5rem 0.85rem;" onchange="filterProducts()">
+                <option value="">All Categories</option>
+              </select>
+            </div>
+            <div>
+              <button onclick="openAddProductModal()" class="btn-accent" style="padding: 0.55rem 1.25rem; font-size: 12px;">
+                + Add New Component
+              </button>
+            </div>
+          </div>
+
+          <!-- Products Table -->
+          <div class="data-table-wrap">
+            <div style="padding: 0.75rem 1.25rem; border-bottom: 1px solid var(--border); background: #FFFFFF; font-size: 12px; color: var(--text-secondary); display: flex; justify-content: space-between; align-items: center;">
+              <span>Showing <strong style="color: var(--text-primary);" id="productsCountShown">0</strong> components</span>
+              <span id="productsPageIndicator">Page 1</span>
+            </div>
+            <div style="overflow-x: auto;">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th style="width: 60px;">Image</th>
+                    <th>Component Name & SKU</th>
+                    <th>Category</th>
+                    <th>Base Price (USD)</th>
+                    <th>MOQ</th>
+                    <th>Featured</th>
+                    <th style="text-align: right;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="adminProductsBody">
+                  <!-- Dynamically populated -->
+                </tbody>
+              </table>
+            </div>
+            <!-- Pagination Controls -->
+            <div style="padding: 1rem 1.25rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;" id="productsPagination">
+              <button id="prevPageBtn" class="btn-outline" style="padding: 0.35rem 0.85rem; font-size: 11px;" onclick="changeProductsPage(-1)">← Previous</button>
+              <span style="font-size: 12px; color: var(--text-secondary);" id="pageNumberDisplay">Page 1</span>
+              <button id="nextPageBtn" class="btn-outline" style="padding: 0.35rem 0.85rem; font-size: 11px;" onclick="changeProductsPage(1)">Next →</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- TAB 3: INQUIRIES & QUOTES DESK -->
+        <section id="tab-inquiries" style="display: none;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+              <button class="quick-filter-pill active" onclick="filterInquiriesStatus('ALL', this)">All Inquiries</button>
+              <button class="quick-filter-pill" onclick="filterInquiriesStatus('New', this)">New</button>
+              <button class="quick-filter-pill" onclick="filterInquiriesStatus('Quoted', this)">Quoted</button>
+              <button class="quick-filter-pill" onclick="filterInquiriesStatus('Sample Dispatched', this)">Sample Dispatched</button>
+              <button class="quick-filter-pill" onclick="filterInquiriesStatus('Closed', this)">Closed</button>
+            </div>
+            <div>
+              <button onclick="exportInquiriesCsv()" class="btn-accent" style="padding: 0.5rem 1.25rem; font-size: 12px;">
+                📥 Export to CSV
+              </button>
+            </div>
+          </div>
+
+          <div class="data-table-wrap">
+            <div style="overflow-x: auto;">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Inquiry ID</th>
+                    <th>Date</th>
+                    <th>Buyer & Company</th>
+                    <th>Contact Details</th>
+                    <th>Destination Port</th>
+                    <th>Component & Quantity</th>
+                    <th>Status</th>
+                    <th style="text-align: right;">Manage</th>
+                  </tr>
+                </thead>
+                <tbody id="inquiriesTableBody">
+                  <!-- Dynamically populated -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- TAB 4: CATEGORIES OVERVIEW -->
+        <section id="tab-categories" style="display: none;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem;" id="categoriesGrid">
+            <!-- Dynamically populated -->
+          </div>
+        </section>
+
+        <!-- TAB 5: FACTORY SETTINGS -->
+        <section id="tab-settings" style="display: none;">
+          <div style="max-width: 700px; background: #FFFFFF; border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 2rem; box-shadow: var(--shadow-sm);">
+            <h2 style="font-family: var(--font-display); font-size: 18px; font-weight: 800; text-transform: uppercase; color: var(--text-primary); margin-bottom: 1.25rem;">
+              Factory & Legal Compliance Configuration
+            </h2>
+            <form id="settingsForm" onsubmit="event.preventDefault(); saveFactorySettings();">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group">
+                  <label class="form-label">Brand Trade Name</label>
+                  <input type="text" id="cfgBrandName" class="form-control" value="SPEAKERPARTPRO" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Company Brand / Entity</label>
+                  <input type="text" id="cfgLegalEntity" class="form-control" value="SPEAKERPARTPRO" required>
+                </div>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group">
+                  <label class="form-label">Quality Certification</label>
+                  <input type="text" id="cfgGstin" class="form-control" value="ISO 9001:2015 Certified">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">HS Code Classification</label>
+                  <input type="text" id="cfgHsCode" class="form-control" value="8518.90.00" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Factory Address</label>
+                <input type="text" id="cfgAddress" class="form-control" value="Pratap Nagar, Jaipur, Rajasthan 302012, India" required>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group">
+                  <label class="form-label">Direct WhatsApp Hotline</label>
+                  <input type="text" id="cfgWhatsapp" class="form-control" value="+91 92143 61550" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Sales Export Email</label>
+                  <input type="email" id="cfgEmail" class="form-control" value="sales@speakerpartpro.com" required>
+                </div>
+              </div>
+
+              <div class="form-group" style="border-top: 1px solid var(--border); padding-top: 1.25rem; margin-top: 1.25rem;">
+                <label class="form-label">Admin Passcode</label>
+                <input type="password" id="cfgPasscode" class="form-control" placeholder="Change administrator passcode (default: admin123)">
+              </div>
+
+              <button type="submit" class="btn-accent" style="padding: 0.75rem 1.75rem; font-size: 13px;">
+                Save Configuration
+              </button>
+            </form>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- 3. Edit/Add Product Modal -->
+  <div class="admin-modal-backdrop" id="productModal">
+    <div class="admin-modal-box">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem;">
+        <h3 id="productModalTitle" style="font-family: var(--font-display); font-size: 18px; font-weight: 800; text-transform: uppercase; color: var(--text-primary); margin: 0;">
+          Edit Component
+        </h3>
+        <button onclick="closeProductModal()" style="background: transparent; border: none; font-size: 20px; color: var(--text-secondary); cursor: pointer;">✕</button>
+      </div>
+      <form id="productForm" onsubmit="event.preventDefault(); handleProductSubmit();">
+        <input type="hidden" id="pmId">
+        
+        <div class="form-group">
+          <label class="form-label">Component Title *</label>
+          <input type="text" id="pmName" class="form-control" required placeholder="e.g. 75.5mm Flat CCAW Voice Coil">
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="form-group">
+            <label class="form-label">Category *</label>
+            <select id="pmCategory" class="form-control" required>
+              <!-- Populated dynamically -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Base Price (USD) *</label>
+            <input type="number" step="0.01" id="pmPrice" class="form-control" placeholder="e.g. 14.50" required>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="form-group">
+            <label class="form-label">Minimum Order Qty (MOQ)</label>
+            <input type="text" id="pmMoq" class="form-control" placeholder="e.g. 500 units">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Featured Badge Text (Optional)</label>
+            <input type="text" id="pmBadge" class="form-control" placeholder="e.g. HIGH-TEMP 280°C">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Featured Image URL</label>
+          <input type="text" id="pmImage" class="form-control" placeholder="/assets/voice-coil-popout.png">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Technical Description</label>
+          <textarea id="pmDescription" class="form-control" rows="3" placeholder="Technical tolerances, epoxy rating, former material..."></textarea>
+        </div>
+
+        <div class="form-group" style="display: flex; align-items: center; gap: 0.5rem;">
+          <input type="checkbox" id="pmFeatured" style="accent-color: var(--accent); width: 16px; height: 16px;">
+          <label for="pmFeatured" style="font-size: 13px; font-weight: 600; cursor: pointer;">Feature on Homepage (Production Run Matrix)</label>
+        </div>
+
+        <div style="display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1.5rem; border-top: 1px solid var(--border); padding-top: 1.25rem;">
+          <button type="button" onclick="closeProductModal()" class="btn-outline">Cancel</button>
+          <button type="submit" class="btn-accent">Save Component</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 4. Inquiry Details Modal -->
+  <div class="admin-modal-backdrop" id="inquiryModal">
+    <div class="admin-modal-box">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem;">
+        <h3 style="font-family: var(--font-display); font-size: 18px; font-weight: 800; text-transform: uppercase; color: var(--text-primary); margin: 0;">
+          Wholesale Quotation Details
+        </h3>
+        <button onclick="closeInquiryModal()" style="background: transparent; border: none; font-size: 20px; color: var(--text-secondary); cursor: pointer;">✕</button>
+      </div>
+      <div id="inquiryDetailsContent"></div>
+    </div>
+  </div>
+
+  <script>
+    // --- State & Initialization ---
+    let allProducts = [];
+    let filteredProducts = [];
+    let allInquiries = [];
+    let allCategories = [];
+    let currentInquiryFilter = 'ALL';
+    let productsPage = 1;
+    const pageSize = 15;
+
+    // Check login state
+    function checkAuth() {
+      const token = localStorage.getItem('spp_admin_token');
+      if (token) {
+        document.getElementById('authOverlay').style.display = 'none';
+        document.getElementById('adminApp').style.display = 'flex';
+        initAdminData();
+      } else {
+        document.getElementById('authOverlay').style.display = 'flex';
+        document.getElementById('adminApp').style.display = 'none';
+      }
+    }
+
+    async function handleAdminLogin() {
+      const passcode = document.getElementById('passcodeInput').value;
+      const errorEl = document.getElementById('loginError');
+      errorEl.style.display = 'none';
+
+      try {
+        const res = await fetch('/api/admin/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ passcode })
+        });
+        const data = await res.json();
+        if (data.success) {
+          localStorage.setItem('spp_admin_token', data.token);
+          checkAuth();
+        } else {
+          errorEl.textContent = data.message || 'Invalid passcode';
+          errorEl.style.display = 'block';
+        }
+      } catch (e) {
+        errorEl.textContent = 'Server connection error';
+        errorEl.style.display = 'block';
+      }
+    }
+
+    function handleAdminLogout() {
+      localStorage.removeItem('spp_admin_token');
+      checkAuth();
+    }
+
+    // --- Tab Switching ---
+    function switchTab(tabId) {
+      document.querySelectorAll('.admin-nav-item').forEach(el => {
+        el.classList.toggle('active', el.getAttribute('data-tab') === tabId);
+      });
+      document.querySelectorAll('section[id^="tab-"]').forEach(el => {
+        el.style.display = el.id === 'tab-' + tabId ? 'block' : 'none';
+      });
+      const titles = {
+        dashboard: 'Factory Dashboard Overview',
+        products: 'Products Catalog Management (200 SKUs)',
+        inquiries: 'B2B Quotation Desk & RFQs',
+        categories: 'Component Categories (12)',
+        settings: 'Factory & Trade Compliance Configuration'
+      };
+      document.getElementById('topbarTitle').textContent = titles[tabId] || 'Factory Admin';
+    }
+
+    // --- Load Data ---
+    async function initAdminData() {
+      await Promise.all([
+        loadStats(),
+        loadProducts(),
+        loadInquiries(),
+        loadCategories(),
+        loadSettings()
+      ]);
+    }
+
+    async function loadStats() {
+      try {
+        const res = await fetch('/api/admin/stats');
+        const d = await res.json();
+        document.getElementById('statProductsCount').textContent = d.totalProducts || 200;
+        document.getElementById('statInquiriesCount').textContent = d.totalInquiries || 0;
+        document.getElementById('statNewInquiriesCount').textContent = (d.newInquiries || 0) + ' New Awaiting Proforma';
+        document.getElementById('statCategoriesCount').textContent = d.totalCategories || 12;
+        document.getElementById('statBlogsCount').textContent = d.totalBlogs || 8;
+        document.getElementById('inquiryBadgeCount').textContent = d.totalInquiries || 0;
+      } catch (e) {}
+    }
+
+    async function loadProducts() {
+      try {
+        const res = await fetch('/api/admin/products');
+        allProducts = await res.json();
+        filteredProducts = [...allProducts];
+        renderProductsTable();
+      } catch (e) {}
+    }
+
+    async function loadInquiries() {
+      try {
+        const res = await fetch('/api/admin/inquiries');
+        allInquiries = await res.json();
+        renderInquiriesTable();
+        renderDashboardInquiries();
+      } catch (e) {}
+    }
+
+    async function loadCategories() {
+      try {
+        const res = await fetch('/api/categories');
+        allCategories = await res.json();
+        renderCategoriesView();
+
+        // Populate category dropdown in product filters & modal
+        const catFilter = document.getElementById('adminCategoryFilter');
+        const modalCat = document.getElementById('pmCategory');
+        catFilter.innerHTML = '<option value="">All Categories</option>' + allCategories.map(c => 
+          `<option value="${c.slug}">${c.name}</option>`
+        ).join('');
+        modalCat.innerHTML = allCategories.map(c => 
+          `<option value="${c.name}" data-slug="${c.slug}">${c.name}</option>`
+        ).join('');
+      } catch (e) {}
+    }
+
+    async function loadSettings() {
+      try {
+        const res = await fetch('/api/admin/settings');
+        const s = await res.json();
+        if (s.companyName) document.getElementById('cfgBrandName').value = s.companyName;
+        if (s.legalEntity) document.getElementById('cfgLegalEntity').value = s.legalEntity;
+        if (s.gstin) document.getElementById('cfgGstin').value = s.gstin;
+        if (s.hsCode) document.getElementById('cfgHsCode').value = s.hsCode;
+        if (s.facilityAddress) document.getElementById('cfgAddress').value = s.facilityAddress;
+        if (s.whatsapp) document.getElementById('cfgWhatsapp').value = s.whatsapp;
+        if (s.salesEmail) document.getElementById('cfgEmail').value = s.salesEmail;
+      } catch (e) {}
+    }
+
+    // --- Products Render & Pagination ---
+    function filterProducts() {
+      const q = document.getElementById('adminProductSearch').value.toLowerCase().trim();
+      const cat = document.getElementById('adminCategoryFilter').value;
+
+      filteredProducts = allProducts.filter(p => {
+        const matchQ = !q || p.name.toLowerCase().includes(q) || (p.id && p.id.toLowerCase().includes(q));
+        const matchCat = !cat || p.category_slug === cat;
+        return matchQ && matchCat;
+      });
+
+      productsPage = 1;
+      renderProductsTable();
+    }
+
+    function renderProductsTable() {
+      const tbody = document.getElementById('adminProductsBody');
+      const start = (productsPage - 1) * pageSize;
+      const paginated = filteredProducts.slice(start, start + pageSize);
+
+      document.getElementById('productsCountShown').textContent = filteredProducts.length;
+      document.getElementById('pageNumberDisplay').textContent = `Page ${productsPage} of ${Math.ceil(filteredProducts.length / pageSize) || 1}`;
+
+      if (paginated.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 2.5rem; color: #888;">No components found matching your search.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = paginated.map(p => {
+        const price = p.variants && p.variants.price ? '$' + parseFloat(p.variants.price).toFixed(2) : 'B2B RFQ';
+        const img = p.featured_image || '/assets/voice-coil-popout.png';
+
+        return `
+          <tr>
+            <td>
+              <img src="${img}" alt="${p.name}" style="width: 42px; height: 42px; object-fit: contain; background: #F9FAFB; border: 1px solid var(--border); border-radius: 4px; padding: 2px;" onerror="this.src='/assets/voice-coil-popout.png'">
+            </td>
+            <td>
+              <strong style="color: var(--text-primary); display: block; max-width: 320px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${p.name}</strong>
+              <span style="font-size: 11px; font-family: var(--font-mono); color: var(--text-tertiary);">${p.id || p.slug}</span>
+            </td>
+            <td>
+              <span class="spec-tag" style="margin: 0; background: var(--bg-secondary);">${p.category_name || 'Component'}</span>
+            </td>
+            <td style="font-family: var(--font-mono); font-weight: 700; color: var(--accent);">${price}</td>
+            <td style="font-size: 12px; color: var(--text-secondary);">${p.moq || '500 units'}</td>
+            <td>
+              ${p.is_featured ? '<span style="color: #16A34A; font-weight: 700; font-size: 11px;">✓ Featured</span>' : '<span style="color: #9CA3AF; font-size: 11px;">Standard</span>'}
+            </td>
+            <td style="text-align: right;">
+              <button onclick="openEditProductModal('${p.id}')" style="background: transparent; border: 1px solid var(--border); padding: 0.3rem 0.6rem; border-radius: 4px; cursor: pointer; font-size: 12px; margin-right: 0.35rem;" title="Edit Component">✏️</button>
+              <button onclick="deleteProduct('${p.id}')" style="background: transparent; border: 1px solid #FCA5A5; color: #DC2626; padding: 0.3rem 0.6rem; border-radius: 4px; cursor: pointer; font-size: 12px;" title="Delete Component">🗑️</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function changeProductsPage(delta) {
+      const maxPages = Math.ceil(filteredProducts.length / pageSize) || 1;
+      const newPage = productsPage + delta;
+      if (newPage >= 1 && newPage <= maxPages) {
+        productsPage = newPage;
+        renderProductsTable();
+      }
+    }
+
+    // --- Product Modals & CRUD ---
+    function openAddProductModal() {
+      document.getElementById('productModalTitle').textContent = 'Add New Transducer Component';
+      document.getElementById('pmId').value = '';
+      document.getElementById('pmName').value = '';
+      document.getElementById('pmPrice').value = '';
+      document.getElementById('pmMoq').value = '500 units';
+      document.getElementById('pmBadge').value = '';
+      document.getElementById('pmImage').value = '/assets/voice-coil-popout.png';
+      document.getElementById('pmDescription').value = '';
+      document.getElementById('pmFeatured').checked = false;
+      document.getElementById('productModal').classList.add('open');
+    }
+
+    function openEditProductModal(id) {
+      const p = allProducts.find(item => item.id === id);
+      if (!p) return;
+      document.getElementById('productModalTitle').textContent = 'Edit Component: ' + p.name;
+      document.getElementById('pmId').value = p.id;
+      document.getElementById('pmName').value = p.name;
+      document.getElementById('pmCategory').value = p.category_name;
+      document.getElementById('pmPrice').value = p.variants && p.variants.price ? p.variants.price : '';
+      document.getElementById('pmMoq').value = p.moq || '500 units';
+      document.getElementById('pmBadge').value = p.seo_meta && p.seo_meta.badge_text ? p.seo_meta.badge_text : '';
+      document.getElementById('pmImage').value = p.featured_image || '';
+      document.getElementById('pmDescription').value = p.description || '';
+      document.getElementById('pmFeatured').checked = !!p.is_featured;
+      document.getElementById('productModal').classList.add('open');
+    }
+
+    function closeProductModal() {
+      document.getElementById('productModal').classList.remove('open');
+    }
+
+    async function handleProductSubmit() {
+      const id = document.getElementById('pmId').value;
+      const catSelect = document.getElementById('pmCategory');
+      const selectedOption = catSelect.options[catSelect.selectedIndex];
+      const category_name = selectedOption.value;
+      const category_slug = selectedOption.getAttribute('data-slug') || 'voice-coils';
+
+      const payload = {
+        id,
+        name: document.getElementById('pmName').value,
+        category_name,
+        category_slug,
+        price: document.getElementById('pmPrice').value,
+        moq: document.getElementById('pmMoq').value,
+        badge_text: document.getElementById('pmBadge').value,
+        featured_image: document.getElementById('pmImage').value,
+        description: document.getElementById('pmDescription').value,
+        is_featured: document.getElementById('pmFeatured').checked
+      };
+
+      const method = id ? 'PUT' : 'POST';
+      const res = await fetch('/api/admin/products', {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      if (data.success) {
+        closeProductModal();
+        await loadProducts();
+        await loadStats();
+      } else {
+        alert('Error saving product: ' + data.message);
+      }
+    }
+
+    async function deleteProduct(id) {
+      if (!confirm('Are you sure you want to delete this component from the catalog?')) return;
+      const res = await fetch('/api/admin/products?id=' + encodeURIComponent(id), { method: 'DELETE' });
+      const data = await res.json();
+      if (data.success) {
+        await loadProducts();
+        await loadStats();
+      }
+    }
+
+    // --- Inquiries Table & Actions ---
+    function filterInquiriesStatus(status, btn) {
+      currentInquiryFilter = status;
+      document.querySelectorAll('#tab-inquiries .quick-filter-pill').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      renderInquiriesTable();
+    }
+
+    function renderInquiriesTable() {
+      const tbody = document.getElementById('inquiriesTableBody');
+      const filtered = currentInquiryFilter === 'ALL' 
+        ? allInquiries 
+        : allInquiries.filter(i => i.status === currentInquiryFilter);
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 2rem; color: #888;">No quotation inquiries in this filter.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(i => {
+        const dateStr = i.createdAt ? new Date(i.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Recent';
+        let statusClass = 'status-new';
+        if (i.status === 'Quoted') statusClass = 'status-quoted';
+        if (i.status === 'Sample Dispatched') statusClass = 'status-dispatched';
+        if (i.status === 'Closed') statusClass = 'status-closed';
+
+        return `
+          <tr>
+            <td><strong style="font-family: var(--font-mono); color: var(--accent);">${i.id}</strong></td>
+            <td style="font-size: 11px; color: var(--text-tertiary);">${dateStr}</td>
+            <td>
+              <strong style="color: var(--text-primary); display: block;">${i.fullName}</strong>
+              <span style="font-size: 11px; color: var(--text-secondary);">${i.company || 'Direct Buyer'}</span>
+            </td>
+            <td>
+              <div style="font-size: 12px; color: var(--text-primary);">${i.email}</div>
+              <div style="font-size: 11px; color: var(--accent); font-weight: 600;">${i.phone}</div>
+            </td>
+            <td style="font-size: 12px; color: var(--text-secondary);">${i.countryPort}</td>
+            <td>
+              <div style="font-size: 12px; font-weight: 600; color: var(--text-primary);">${i.category}</div>
+              <div style="font-size: 11px; color: var(--text-tertiary);">Tier: ${i.quantityTier}</div>
+            </td>
+            <td>
+              <select onchange="updateInquiryStatus('${i.id}', this.value)" class="form-control" style="font-size: 11px; padding: 0.2rem 0.5rem; width: auto;">
+                <option value="New" ${i.status === 'New' ? 'selected' : ''}>New</option>
+                <option value="Quoted" ${i.status === 'Quoted' ? 'selected' : ''}>Quoted</option>
+                <option value="Sample Dispatched" ${i.status === 'Sample Dispatched' ? 'selected' : ''}>Sample Dispatched</option>
+                <option value="Closed" ${i.status === 'Closed' ? 'selected' : ''}>Closed</option>
+              </select>
+            </td>
+            <td style="text-align: right;">
+              <button onclick="viewInquiryDetails('${i.id}')" style="background: transparent; border: 1px solid var(--border); padding: 0.3rem 0.6rem; border-radius: 4px; cursor: pointer; font-size: 12px; margin-right: 0.35rem;" title="View Full Specs & Notes">🔍</button>
+              <button onclick="deleteInquiry('${i.id}')" style="background: transparent; border: 1px solid #FCA5A5; color: #DC2626; padding: 0.3rem 0.6rem; border-radius: 4px; cursor: pointer; font-size: 12px;" title="Delete RFQ">🗑️</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function renderDashboardInquiries() {
+      const tbody = document.getElementById('dashboardInquiriesBody');
+      const latest = allInquiries.slice(0, 5);
+      tbody.innerHTML = latest.map(i => `
+        <tr>
+          <td><strong style="font-family: var(--font-mono); color: var(--accent);">${i.id}</strong></td>
+          <td>${i.fullName} <span style="color: #888; font-size: 11px;">(${i.company || 'B2B'})</span></td>
+          <td>${i.countryPort}</td>
+          <td>${i.category}</td>
+          <td>${i.quantityTier}</td>
+          <td><span class="status-badge ${i.status === 'New' ? 'status-new' : (i.status === 'Quoted' ? 'status-quoted' : 'status-dispatched')}">${i.status}</span></td>
+          <td><button onclick="viewInquiryDetails('${i.id}')" class="btn-outline" style="padding: 0.2rem 0.5rem; font-size: 11px;">View</button></td>
+        </tr>
+      `).join('');
+    }
+
+    async function updateInquiryStatus(id, newStatus) {
+      await fetch('/api/admin/inquiries', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, status: newStatus })
+      });
+      await loadInquiries();
+      await loadStats();
+    }
+
+    async function deleteInquiry(id) {
+      if (!confirm('Delete quotation record ' + id + '?')) return;
+      await fetch('/api/admin/inquiries?id=' + encodeURIComponent(id), { method: 'DELETE' });
+      await loadInquiries();
+      await loadStats();
+    }
+
+    function viewInquiryDetails(id) {
+      const i = allInquiries.find(item => item.id === id);
+      if (!i) return;
+      const c = document.getElementById('inquiryDetailsContent');
+      c.innerHTML = `
+        <div style="margin-bottom: 1.25rem;">
+          <span style="font-family: var(--font-mono); color: var(--accent); font-weight: 800; font-size: 13px;">${i.id}</span>
+          <h4 style="font-size: 16px; font-weight: 800; margin: 0.25rem 0;">${i.fullName} — ${i.company}</h4>
+          <div style="font-size: 12px; color: var(--text-secondary);">Email: <a href="mailto:${i.email}">${i.email}</a> | Phone: <a href="tel:${i.phone}">${i.phone}</a></div>
+        </div>
+        <div style="background: var(--bg-secondary); padding: 1rem; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 1.25rem;">
+          <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 0.25rem;">Requested Component & Specs</div>
+          <div style="font-size: 13px; font-weight: 700; color: var(--text-primary);">${i.category}</div>
+          <div style="font-size: 12px; color: var(--text-secondary); margin-top: 0.25rem;">Target Quantity: ${i.quantityTier} • Shipping: ${i.shippingMethod}</div>
+          <div style="font-size: 12px; color: var(--text-secondary); margin-top: 0.25rem;">Destination: ${i.countryPort}</div>
+        </div>
+        <div style="margin-bottom: 1.5rem;">
+          <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 0.35rem;">Buyer Technical Notes</div>
+          <p style="font-size: 13px; color: var(--text-primary); line-height: 1.6; background: #FFF; border: 1px solid var(--border); padding: 0.85rem; border-radius: 6px;">
+            ${i.notes || 'No specific notes provided.'}
+          </p>
+        </div>
+        <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
+          <a href="https://wa.me/${i.phone.replace(/[^0-9]/g, '')}" target="_blank" rel="noopener noreferrer">
+            <button class="btn-whatsapp" style="padding: 0.5rem 1rem; font-size: 12px;">Chat on WhatsApp</button>
+          </a>
+          <button onclick="closeInquiryModal()" class="btn-accent" style="padding: 0.5rem 1rem; font-size: 12px;">Close</button>
+        </div>
+      `;
+      document.getElementById('inquiryModal').classList.add('open');
+    }
+
+    function closeInquiryModal() {
+      document.getElementById('inquiryModal').classList.remove('open');
+    }
+
+    function exportInquiriesCsv() {
+      if (allInquiries.length === 0) {
+        alert('No inquiries to export.');
+        return;
+      }
+      const headers = ['ID', 'Date', 'Full Name', 'Company', 'Email', 'Phone', 'Destination Port', 'Category', 'Quantity Tier', 'Shipping Method', 'Notes', 'Status'];
+      const rows = allInquiries.map(i => [
+        i.id,
+        i.createdAt || '',
+        '"' + (i.fullName || '').replace(/"/g, '""') + '"',
+        '"' + (i.company || '').replace(/"/g, '""') + '"',
+        i.email || '',
+        i.phone || '',
+        '"' + (i.countryPort || '').replace(/"/g, '""') + '"',
+        '"' + (i.category || '').replace(/"/g, '""') + '"',
+        '"' + (i.quantityTier || '').replace(/"/g, '""') + '"',
+        '"' + (i.shippingMethod || '').replace(/"/g, '""') + '"',
+        '"' + (i.notes || '').replace(/"/g, '""') + '"',
+        i.status || 'New'
+      ]);
+
+      const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement('a');
+      link.setAttribute('href', encodedUri);
+      link.setAttribute('download', 'speakerpartpro_b2b_inquiries_' + Date.now() + '.csv');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // --- Categories Overview Render ---
+    function renderCategoriesView() {
+      const grid = document.getElementById('categoriesGrid');
+      grid.innerHTML = allCategories.map(c => {
+        const count = allProducts.filter(p => p.category_slug === c.slug).length;
+        return `
+          <div class="stat-card">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
+              <h4 style="font-family: var(--font-display); font-size: 15px; font-weight: 800; text-transform: uppercase; color: var(--text-primary); margin: 0;">
+                ${c.name}
+              </h4>
+              <span class="spec-tag" style="margin: 0; background: var(--accent-light); color: var(--accent); font-weight: 800;">${count} SKUs</span>
+            </div>
+            <p style="font-size: 12px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1rem; min-height: 36px;">
+              ${c.description || 'Precision loudspeaker transducer components.'}
+            </p>
+            <div style="border-top: 1px solid var(--border); padding-top: 0.75rem; display: flex; justify-content: space-between; align-items: center;">
+              <a href="/category.html?slug=${c.slug}" target="_blank" style="font-size: 11px; color: var(--accent); font-weight: 700; text-decoration: none;">View Live Page →</a>
+              <button onclick="document.getElementById('adminCategoryFilter').value='${c.slug}'; filterProducts(); switchTab('products');" style="background: transparent; border: none; font-size: 11px; color: var(--text-secondary); cursor: pointer; font-weight: 600;">Filter SKUs</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // --- Settings Submit ---
+    async function saveFactorySettings() {
+      const payload = {
+        companyName: document.getElementById('cfgBrandName').value,
+        legalEntity: document.getElementById('cfgLegalEntity').value,
+        gstin: document.getElementById('cfgGstin').value,
+        hsCode: document.getElementById('cfgHsCode').value,
+        facilityAddress: document.getElementById('cfgAddress').value,
+        whatsapp: document.getElementById('cfgWhatsapp').value,
+        salesEmail: document.getElementById('cfgEmail').value
+      };
+      const pass = document.getElementById('cfgPasscode').value;
+      if (pass) payload.adminPasscode = pass;
+
+      const res = await fetch('/api/admin/settings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      if (data.success) {
+        alert('Factory configuration saved successfully!');
+      }
+    }
+
+    // Start on load
+    document.addEventListener('DOMContentLoaded', checkAuth);
+  </script>
+</body>
+</html>

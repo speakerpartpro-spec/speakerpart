@@ -1,0 +1,22 @@
+{
+  "name": "speakerpartpro",
+  "version": "1.0.0",
+  "description": "SPEAKERPARTPRO - B2B electro-acoustic loudspeaker parts manufacturer and wholesale exporter platform.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "serve": "node server.js"
+  },
+  "keywords": [
+    "speakerpartpro",
+    "loudspeaker",
+    "speaker-parts",
+    "voice-coils",
+    "paper-cones",
+    "foam-surrounds",
+    "b2b",
+    "manufacturing"
+  ],
+  "author": "SPEAKERPARTPRO",
+  "license": "ISC"
+}
