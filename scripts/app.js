@@ -304,6 +304,8 @@
               <div>
                 <span style="color: var(--text-tertiary); display: block; font-size: 11px; text-transform: uppercase;">WhatsApp / Direct:</span>
                 <a href="https://wa.me/919214361550" style="color: var(--accent); font-weight: 700;">+91 92143 61550</a>
+                <span style="color: var(--text-tertiary); margin: 0 0.3rem;">|</span>
+                <a href="https://wa.me/919252192491" style="color: var(--accent); font-weight: 700;">+91 92521 92491</a>
               </div>
               <div>
                 <span style="color: var(--text-tertiary); display: block; font-size: 11px; text-transform: uppercase;">Export Inquiries:</span>
