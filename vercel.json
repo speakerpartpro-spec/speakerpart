@@ -29,6 +29,7 @@
     { "source": "/speaker-edge-ports/:slug", "destination": "/product-detail.html" },
     { "source": "/custom-repair-kits/:slug", "destination": "/product-detail.html" },
     { "source": "/custom-recone-kits/:slug", "destination": "/product-detail.html" },
+    { "source": "/blog/:slug", "destination": "/blog-post.html" },
     { "source": "/api/(.*)", "destination": "/api/index.js" }
   ]
 }

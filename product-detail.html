@@ -153,7 +153,18 @@
 
     async function loadProductDetail() {
       const urlParams = new URLSearchParams(window.location.search);
-      const slug = urlParams.get('slug');
+      let slug = urlParams.get('slug');
+
+      // Resolve slug from clean path (e.g. /voice-coils/copper-voice-coil-75mm)
+      if (!slug) {
+        const pathSegments = window.location.pathname.split('/').filter(Boolean);
+        if (pathSegments.length > 0) {
+          const lastSeg = pathSegments[pathSegments.length - 1].replace(/\.html$/, '');
+          if (lastSeg !== 'product-detail' && lastSeg !== 'products') {
+            slug = lastSeg;
+          }
+        }
+      }
 
       if (!slug) {
         window.location.href = '/products.html';
@@ -170,10 +181,49 @@
           return;
         }
 
+        const canonicalPath = `/${currentProduct.category_slug || 'products'}/${currentProduct.slug}`;
+        const canonicalUrl = `https://speakerpartpro.vercel.app${canonicalPath}`;
+
         document.title = `${currentProduct.name} | SPEAKERPARTPRO`;
 
+        // Update Canonical Tag
+        let canonicalEl = document.querySelector('link[rel="canonical"]');
+        if (!canonicalEl) {
+          canonicalEl = document.createElement('link');
+          canonicalEl.rel = 'canonical';
+          document.head.appendChild(canonicalEl);
+        }
+        canonicalEl.href = canonicalUrl;
+
+        // Update Meta Description
+        let metaDescEl = document.querySelector('meta[name="description"]');
+        if (!metaDescEl) {
+          metaDescEl = document.createElement('meta');
+          metaDescEl.name = 'description';
+          document.head.appendChild(metaDescEl);
+        }
+        metaDescEl.content = currentProduct.short_desc || currentProduct.seo_meta?.description || `Wholesale ${currentProduct.name} engineered by SPEAKERPARTPRO. High durability, precision tolerances, export ready.`;
+
+        // Update Open Graph Tags
+        const setOg = (property, content) => {
+          let el = document.querySelector(`meta[property="${property}"]`);
+          if (!el) {
+            el = document.createElement('meta');
+            el.setAttribute('property', property);
+            document.head.appendChild(el);
+          }
+          el.content = content;
+        };
+        setOg('og:title', `${currentProduct.name} | SPEAKERPARTPRO`);
+        setOg('og:description', metaDescEl.content);
+        setOg('og:url', canonicalUrl);
+        setOg('og:type', 'product');
+        if (currentProduct.featured_image) {
+          setOg('og:image', `https://speakerpartpro.vercel.app${currentProduct.featured_image}`);
+        }
+
         document.getElementById('breadcrumbCat').textContent = currentProduct.category_name || 'Category';
-        document.getElementById('breadcrumbCat').href = `/category.html?slug=${currentProduct.category_slug}`;
+        document.getElementById('breadcrumbCat').href = `/${currentProduct.category_slug || 'products'}`;
         document.getElementById('breadcrumbTitle').textContent = currentProduct.name;
 
         document.getElementById('detailCategory').textContent = `${currentProduct.category_name || 'SPEAKER'} • SPEAKERPARTPRO`;
@@ -247,18 +297,20 @@
 
         const related = products.filter(p => p.category_slug === currentProduct.category_slug && p.id !== currentProduct.id).slice(0, 4);
         const relatedGrid = document.getElementById('relatedGrid');
-        document.getElementById('viewCategoryAllLink').href = `/category.html?slug=${currentProduct.category_slug}`;
+        document.getElementById('viewCategoryAllLink').href = `/${currentProduct.category_slug || 'products'}`;
 
         if (related.length > 0) {
-          relatedGrid.innerHTML = related.map(p => `
+          relatedGrid.innerHTML = related.map(p => {
+            const relUrl = `/${p.category_slug || currentProduct.category_slug || 'products'}/${p.slug}`;
+            return `
             <div class="product-card">
-              <a href="/product-detail.html?slug=${p.slug}">
+              <a href="${relUrl}">
                 <div class="product-img-wrapper">
                   <img src="${p.featured_image || '/assets/voice-coil-popout.png'}" alt="${p.name}" onerror="this.src='/assets/voice-coil-popout.png'">
                 </div>
               </a>
               <div class="product-details">
-                <a href="/product-detail.html?slug=${p.slug}">
+                <a href="${relUrl}">
                   <h4 style="font-size: 13px; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
                     ${p.name}
                   </h4>
@@ -268,7 +320,8 @@
                 </div>
               </div>
             </div>
-          `).join('');
+          `;
+          }).join('');
         } else {
           relatedGrid.innerHTML = '<div style="color: #666; font-size: 12px;">Explore full catalog for additional options.</div>';
         }

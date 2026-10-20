@@ -295,9 +295,11 @@
         const price = p.variants && p.variants.price ? window.TSPC.formatPrice(p.variants.price) : 'B2B RFQ';
         const badge = p.seo_meta && p.seo_meta.badge_text ? p.seo_meta.badge_text : (p.is_featured ? 'PRO SPEC' : null);
 
+        const productUrl = `/${p.category_slug || 'products'}/${p.slug}`;
+
         return `
           <div class="product-card">
-            <a href="/product-detail.html?slug=${p.slug}" style="display: block;">
+            <a href="${productUrl}" style="display: block;">
               <div class="product-img-wrapper">
                 ${badge ? `<span class="product-badge">${badge}</span>` : ''}
                 <img src="${img}" alt="${p.name}" loading="lazy" onerror="this.src='/assets/voice-coil-popout.png'">
@@ -308,7 +310,7 @@
                 <div style="font-family: var(--font-display); font-size: 11px; text-transform: uppercase; color: var(--accent); letter-spacing: 0.08em; margin-bottom: 0.3rem;">
                   ${p.category_name || 'Component'}
                 </div>
-                <a href="/product-detail.html?slug=${p.slug}" style="display: block;">
+                <a href="${productUrl}" style="display: block;">
                   <h3 style="font-size: 13px; font-weight: 700; color: var(--text-primary); line-height: 1.4; margin-bottom: 0.5rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;" title="${p.name}">
                     ${p.name}
                   </h3>
@@ -325,7 +327,7 @@
                   <button onclick="window.TSPC.addToCart({ id: '${p.id}', name: '${p.name.replace(/'/g, "\\'")}', slug: '${p.slug}', featured_image: '${img}', moq: '${p.moq || '500 units'}', variants: { price: ${p.variants && p.variants.price ? p.variants.price : 'null'} } })" class="btn-accent" style="flex: 1; padding: 0.5rem; font-size: 11px;">
                     Add to RFQ
                   </button>
-                  <a href="/product-detail.html?slug=${p.slug}" style="display: flex;">
+                  <a href="${productUrl}" style="display: flex;">
                     <button class="btn-outline" style="padding: 0.5rem 0.75rem; font-size: 11px;">
                       Specs
                     </button>

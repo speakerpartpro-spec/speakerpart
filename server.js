@@ -380,7 +380,14 @@ const server = http.createServer(async (req, res) => {
     return sendFile(res, path.join(ROOT_DIR, 'pages', 'category.html'), 'text/html; charset=utf-8');
   }
   if (pathname === '/product-detail.html') {
-    return sendFile(res, path.join(ROOT_DIR, 'pages', 'product-detail.html'), 'text/html; charset=utf-8');
+    const prodFile = fs.existsSync(path.join(ROOT_DIR, 'product-detail.html')) ? path.join(ROOT_DIR, 'product-detail.html') : path.join(ROOT_DIR, 'pages', 'product-detail.html');
+    return sendFile(res, prodFile, 'text/html; charset=utf-8');
+  }
+
+  // Blog post routes (e.g. /blog/slug)
+  if (parts.length === 2 && parts[0] === 'blog') {
+    const blogFile = fs.existsSync(path.join(ROOT_DIR, 'blog-post.html')) ? path.join(ROOT_DIR, 'blog-post.html') : path.join(ROOT_DIR, 'pages', 'blog-post.html');
+    return sendFile(res, blogFile, 'text/html; charset=utf-8');
   }
   if (pathname === '/privacy' || pathname === '/privacy.html') {
     return sendFile(res, path.join(ROOT_DIR, 'pages', 'privacy.html'), 'text/html; charset=utf-8');
@@ -401,7 +408,14 @@ const server = http.createServer(async (req, res) => {
   // Product detail routes (e.g. /voice-coils/44-5-mm-voice-coil-...)
   const parts = pathname.split('/').filter(Boolean);
   if (parts.length === 2 && CATEGORY_SLUGS.includes(parts[0])) {
-    return sendFile(res, path.join(ROOT_DIR, 'pages', 'product-detail.html'), 'text/html; charset=utf-8');
+    const prodFile = fs.existsSync(path.join(ROOT_DIR, 'product-detail.html')) ? path.join(ROOT_DIR, 'product-detail.html') : path.join(ROOT_DIR, 'pages', 'product-detail.html');
+    return sendFile(res, prodFile, 'text/html; charset=utf-8');
+  }
+
+  // Blog post routes (e.g. /blog/slug)
+  if (parts.length === 2 && parts[0] === 'blog') {
+    const blogFile = fs.existsSync(path.join(ROOT_DIR, 'blog-post.html')) ? path.join(ROOT_DIR, 'blog-post.html') : path.join(ROOT_DIR, 'pages', 'blog-post.html');
+    return sendFile(res, blogFile, 'text/html; charset=utf-8');
   }
 
   res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });

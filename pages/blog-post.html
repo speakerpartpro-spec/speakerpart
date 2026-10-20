@@ -141,6 +141,16 @@
       let slug = urlParams.get('slug');
 
       if (!slug) {
+        const pathSegments = window.location.pathname.split('/').filter(Boolean);
+        if (pathSegments.length > 0) {
+          const lastSeg = pathSegments[pathSegments.length - 1].replace(/\.html$/, '');
+          if (lastSeg !== 'blog-post' && lastSeg !== 'blog') {
+            slug = lastSeg;
+          }
+        }
+      }
+
+      if (!slug) {
         window.location.href = '/blog.html';
         return;
       }
@@ -155,7 +165,25 @@
           return;
         }
 
+        const canonicalUrl = `https://speakerpartpro.vercel.app/blog/${post.slug}`;
         document.title = `${post.title} | SPEAKERPARTPRO`;
+
+        let canonicalEl = document.querySelector('link[rel="canonical"]');
+        if (!canonicalEl) {
+          canonicalEl = document.createElement('link');
+          canonicalEl.rel = 'canonical';
+          document.head.appendChild(canonicalEl);
+        }
+        canonicalEl.href = canonicalUrl;
+
+        let metaDescEl = document.querySelector('meta[name="description"]');
+        if (!metaDescEl) {
+          metaDescEl = document.createElement('meta');
+          metaDescEl.name = 'description';
+          document.head.appendChild(metaDescEl);
+        }
+        metaDescEl.content = post.description || `${post.title} - comprehensive engineering guide by SPEAKERPARTPRO.`;
+
         document.getElementById('postBreadcrumb').textContent = post.title;
         document.getElementById('postTitle').textContent = post.title;
         document.getElementById('postCategory').textContent = post.category || 'Technical Guide';

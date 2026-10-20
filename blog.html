@@ -63,7 +63,7 @@
                     ${b.readTime || '5 min read'}
                   </span>
                 </div>
-                <a href="/blog-post.html?slug=${b.slug}" style="display: block;">
+                <a href="/blog/${b.slug}" style="display: block;">
                   <h3 style="font-family: var(--font-display); font-size: 20px; font-weight: 800; color: var(--text-primary); line-height: 1.35; margin-bottom: 0.75rem;">
                     ${b.title}
                   </h3>
@@ -74,7 +74,7 @@
               </div>
               <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 1rem; font-size: 12px; color: #777;">
                 <span>By ${b.author || 'SPEAKERPARTPRO Team'}</span>
-                <a href="/blog-post.html?slug=${b.slug}" style="color: var(--accent); font-family: var(--font-display); font-weight: 800; text-transform: uppercase; display: flex; align-items: center; gap: 0.25rem;">
+                <a href="/blog/${b.slug}" style="color: var(--accent); font-family: var(--font-display); font-weight: 800; text-transform: uppercase; display: flex; align-items: center; gap: 0.25rem;">
                   Read Article →
                 </a>
               </div>

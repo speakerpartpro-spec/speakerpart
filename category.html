@@ -129,6 +129,24 @@
         document.getElementById('catTitle').textContent = currentCategory.name;
         document.getElementById('catDesc').textContent = currentCategory.description || 'Precision loudspeaker components engineered for OEM manufacturers, audio brands, and reconing professionals worldwide.';
 
+        // Dynamic Canonical & Meta Description
+        const catCanonicalUrl = `https://speakerpartpro.vercel.app/${currentCategory.slug}`;
+        let canonicalEl = document.querySelector('link[rel="canonical"]');
+        if (!canonicalEl) {
+          canonicalEl = document.createElement('link');
+          canonicalEl.rel = 'canonical';
+          document.head.appendChild(canonicalEl);
+        }
+        canonicalEl.href = catCanonicalUrl;
+
+        let metaDescEl = document.querySelector('meta[name="description"]');
+        if (!metaDescEl) {
+          metaDescEl = document.createElement('meta');
+          metaDescEl.name = 'description';
+          document.head.appendChild(metaDescEl);
+        }
+        metaDescEl.content = `Wholesale ${currentCategory.name} from SPEAKERPARTPRO. Factory-direct loudspeaker replacement parts and OEM acoustic assemblies. High durability, export ready.`;
+
         const popoutImg = POPOUT_MAP[slug] || '/assets/voice-coil-popout.png';
         document.getElementById('catPopoutImg').src = popoutImg;
 
@@ -160,10 +178,11 @@
         const img = p.featured_image || '/assets/voice-coil-popout.png';
         const price = p.variants && p.variants.price ? window.TSPC.formatPrice(p.variants.price) : 'B2B RFQ';
         const badge = p.seo_meta && p.seo_meta.badge_text ? p.seo_meta.badge_text : (p.is_featured ? 'PRO SPEC' : null);
+        const productUrl = `/${p.category_slug || currentCategory.slug}/${p.slug}`;
 
         return `
           <div class="product-card">
-            <a href="/product-detail.html?slug=${p.slug}">
+            <a href="${productUrl}">
               <div class="product-img-wrapper">
                 ${badge ? `<span class="product-badge">${badge}</span>` : ''}
                 <img src="${img}" alt="${p.name}" loading="lazy" onerror="this.src='/assets/voice-coil-popout.png'">
@@ -171,7 +190,7 @@
             </a>
             <div class="product-details">
               <div>
-                <a href="/product-detail.html?slug=${p.slug}">
+                <a href="${productUrl}">
                   <h3 style="font-size: 13px; font-weight: 700; color: var(--text-primary); line-height: 1.4; margin-bottom: 0.5rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;" title="${p.name}">
                     ${p.name}
                   </h3>
@@ -188,7 +207,7 @@
                   <button onclick="window.TSPC.addToCart({ id: '${p.id}', name: '${p.name.replace(/'/g, "\\'")}', slug: '${p.slug}', featured_image: '${img}', moq: '${p.moq || '500 units'}', variants: { price: ${p.variants && p.variants.price ? p.variants.price : 'null'} } })" class="btn-accent" style="flex: 1; padding: 0.5rem; font-size: 11px;">
                     Add to RFQ
                   </button>
-                  <a href="/product-detail.html?slug=${p.slug}">
+                  <a href="${productUrl}">
                     <button class="btn-outline" style="padding: 0.5rem 0.75rem; font-size: 11px;">
                       Specs
                     </button>
