@@ -386,6 +386,8 @@ const server = http.createServer(async (req, res) => {
 
   // Blog post routes (e.g. /blog/slug)
   if (parts.length === 2 && parts[0] === 'blog') {
+    const ssgBlog = path.join(ROOT_DIR, 'blog', ${parts[1]}.html);
+    if (fs.existsSync(ssgBlog)) return sendFile(res, ssgBlog, 'text/html; charset=utf-8');
     const blogFile = fs.existsSync(path.join(ROOT_DIR, 'blog-post.html')) ? path.join(ROOT_DIR, 'blog-post.html') : path.join(ROOT_DIR, 'pages', 'blog-post.html');
     return sendFile(res, blogFile, 'text/html; charset=utf-8');
   }
@@ -402,18 +404,24 @@ const server = http.createServer(async (req, res) => {
   // Category routes (e.g. /voice-coils)
   const cleanSlug = pathname.replace('/', '');
   if (CATEGORY_SLUGS.includes(cleanSlug)) {
+    const ssgCat = path.join(ROOT_DIR, ${cleanSlug}.html);
+    if (fs.existsSync(ssgCat)) return sendFile(res, ssgCat, 'text/html; charset=utf-8');
     return sendFile(res, path.join(ROOT_DIR, 'pages', 'category.html'), 'text/html; charset=utf-8');
   }
 
   // Product detail routes (e.g. /voice-coils/44-5-mm-voice-coil-...)
   const parts = pathname.split('/').filter(Boolean);
   if (parts.length === 2 && CATEGORY_SLUGS.includes(parts[0])) {
+    const ssgProd = path.join(ROOT_DIR, parts[0], ${parts[1]}.html);
+    if (fs.existsSync(ssgProd)) return sendFile(res, ssgProd, 'text/html; charset=utf-8');
     const prodFile = fs.existsSync(path.join(ROOT_DIR, 'product-detail.html')) ? path.join(ROOT_DIR, 'product-detail.html') : path.join(ROOT_DIR, 'pages', 'product-detail.html');
     return sendFile(res, prodFile, 'text/html; charset=utf-8');
   }
 
   // Blog post routes (e.g. /blog/slug)
   if (parts.length === 2 && parts[0] === 'blog') {
+    const ssgBlog = path.join(ROOT_DIR, 'blog', ${parts[1]}.html);
+    if (fs.existsSync(ssgBlog)) return sendFile(res, ssgBlog, 'text/html; charset=utf-8');
     const blogFile = fs.existsSync(path.join(ROOT_DIR, 'blog-post.html')) ? path.join(ROOT_DIR, 'blog-post.html') : path.join(ROOT_DIR, 'pages', 'blog-post.html');
     return sendFile(res, blogFile, 'text/html; charset=utf-8');
   }
