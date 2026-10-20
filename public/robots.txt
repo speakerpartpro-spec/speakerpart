@@ -1,0 +1,20 @@
+# Robots.txt for SPEAKERPARTPRO (B2B Speaker Parts & Transducer Components)
+# Domain: https://speakerpartpro.vercel.app
+
+User-agent: *
+Allow: /
+
+# Disallow sensitive internal factory administration console
+Disallow: /admin.html
+Disallow: /admin
+Disallow: /pages/admin.html
+
+# Disallow backend API endpoints
+Disallow: /api/
+Disallow: /api/*
+
+# Crawl-delay for polite crawling
+Crawl-delay: 1
+
+# XML Sitemap Location
+Sitemap: https://speakerpartpro.vercel.app/sitemap.xml
