@@ -303,13 +303,11 @@
               </div>
               <div>
                 <span style="color: var(--text-tertiary); display: block; font-size: 11px; text-transform: uppercase;">WhatsApp / Direct:</span>
-                <a href="https://wa.me/919214361550" style="color: var(--accent); font-weight: 700;">+91 92143 61550</a>
-                <span style="color: var(--text-tertiary); margin: 0 0.3rem;">|</span>
                 <a href="https://wa.me/919252192491" style="color: var(--accent); font-weight: 700;">+91 92521 92491</a>
               </div>
               <div>
                 <span style="color: var(--text-tertiary); display: block; font-size: 11px; text-transform: uppercase;">Export Inquiries:</span>
-                <a href="mailto:sales@speakerpartpro.com" style="color: var(--text-primary); font-weight: 600;">sales@speakerpartpro.com</a>
+                <a href="mailto:speakerpartpro@gmail.com" style="color: var(--text-primary); font-weight: 600;">speakerpartpro@gmail.com</a>
               </div>
               <div style="margin-top: 0.5rem;">
                 <button onclick="window.TSPC.openRfqModal()" class="btn-accent" style="width: 100%; font-size: 12px; padding: 0.6rem;">
@@ -585,7 +583,7 @@
           <a href="/contact.html" style="color: var(--text-primary);">Contact Us</a>
         </div>
         <div style="margin-top: auto; padding: 1.5rem; border-top: 1px solid var(--border); background: var(--bg-secondary);">
-          <a href="https://wa.me/919214361550" target="_blank" rel="noopener noreferrer" style="display: block; margin-bottom: 0.75rem;">
+          <a href="https://wa.me/919252192491" target="_blank" rel="noopener noreferrer" style="display: block; margin-bottom: 0.75rem;">
             <button class="btn-whatsapp" style="width: 100%; justify-content: center;">
               <img src="/assets/whatsapp.png" alt="WhatsApp" style="width: 16px; height: 16px;">
               Chat on WhatsApp
@@ -711,7 +709,7 @@
         <span>RFQ Cart</span>
       </button>
 
-      <a href="https://wa.me/919214361550" target="_blank" rel="noopener noreferrer" class="mobile-bar-item" title="WhatsApp Desk" style="color: #25D366;">
+      <a href="https://wa.me/919252192491" target="_blank" rel="noopener noreferrer" class="mobile-bar-item" title="WhatsApp Desk" style="color: #25D366;">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
         </svg>
