@@ -434,8 +434,12 @@ categories.forEach(c => {
   if (!fs.existsSync(catDir)) {
     fs.mkdirSync(catDir, { recursive: true });
   }
-  fs.writeFileSync(path.join(ROOT_DIR, `${c.slug}.html`), html, 'utf8');
-  // duplicate catDir/index.html omitted to prevent Vercel cleanUrls route collision
+  // Write category page to catDir/index.html to serve /c.slug cleanly without route collision
+  fs.writeFileSync(path.join(catDir, 'index.html'), html, 'utf8');
+  const rootCatHtml = path.join(ROOT_DIR, `${c.slug}.html`);
+  if (fs.existsSync(rootCatHtml)) {
+    try { fs.unlinkSync(rootCatHtml); } catch (e) {}
+  }
   catCount++;
 });
 
@@ -552,6 +556,16 @@ blogs.forEach(b => {
   fs.writeFileSync(path.join(blogDir, `${b.slug}.html`), html, 'utf8');
   blogCount++;
 });
+
+// Blog listing index.html inside blog/
+const rootBlogHtml = path.join(ROOT_DIR, 'blog.html');
+const pagesBlogHtml = path.join(ROOT_DIR, 'pages', 'blog.html');
+if (fs.existsSync(rootBlogHtml)) {
+  fs.writeFileSync(path.join(blogDir, 'index.html'), fs.readFileSync(rootBlogHtml, 'utf8'), 'utf8');
+  try { fs.unlinkSync(rootBlogHtml); } catch (e) {}
+} else if (fs.existsSync(pagesBlogHtml)) {
+  fs.writeFileSync(path.join(blogDir, 'index.html'), fs.readFileSync(pagesBlogHtml, 'utf8'), 'utf8');
+}
 
 console.log('====================================================');
 console.log(`Pre-Render Complete:`);
