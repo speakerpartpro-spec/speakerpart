@@ -435,7 +435,7 @@ categories.forEach(c => {
     fs.mkdirSync(catDir, { recursive: true });
   }
   fs.writeFileSync(path.join(ROOT_DIR, `${c.slug}.html`), html, 'utf8');
-  fs.writeFileSync(path.join(catDir, 'index.html'), html, 'utf8');
+  // duplicate catDir/index.html omitted to prevent Vercel cleanUrls route collision
   catCount++;
 });
 
