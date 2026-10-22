@@ -440,67 +440,64 @@
   }
 
   // --- RFQ Quote Modal Component ---
-  function createRfqModal() {
-    if (document.getElementById('rfqModal')) return;
+  function renderRfqForm() {
+    const container = document.getElementById('rfqModalContainer');
+    if (!container) return;
 
-    const modal = document.createElement('div');
-    modal.className = 'modal-overlay';
-    modal.id = 'rfqModal';
-    modal.innerHTML = `
-      <div class="modal-container">
-        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
-          <h3 style="font-family: var(--font-display); font-size: 18px; font-weight: 800; text-transform: uppercase; color: var(--text-primary);">
-            Request Official SPEAKERPARTPRO Quotation
-          </h3>
-          <button id="closeRfqModalBtn" style="background: transparent; border: none; color: var(--text-secondary); cursor: pointer; font-size: 20px;">✕</button>
-        </div>
-        <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.6;">
-          Direct quotation from master manufacturer SPEAKERPARTPRO (Jaipur, India). We provide custom OEM tooling, evaluation samples, and global container shipping.
-        </p>
-        <form id="rfqForm">
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-            <div class="form-group">
-              <label class="form-label">Full Name *</label>
-              <input type="text" id="rfqName" required class="form-control" placeholder="John Doe">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Company / Brand *</label>
-              <input type="text" id="rfqCompany" required class="form-control" placeholder="Pro Audio LLC">
-            </div>
-          </div>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-            <div class="form-group">
-              <label class="form-label">Business Email *</label>
-              <input type="email" id="rfqEmail" required class="form-control" placeholder="purchasing@company.com">
-            </div>
-            <div class="form-group">
-              <label class="form-label">WhatsApp / Phone *</label>
-              <input type="tel" id="rfqPhone" required class="form-control" placeholder="+1 (555) 000-0000">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Destination Country & Port *</label>
-            <input type="text" id="rfqCountry" required class="form-control" placeholder="United States (DHL Express / Long Beach Port)">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Inquiry Details / Specific Dimensions</label>
-            <textarea id="rfqDetails" rows="3" class="form-control" placeholder="Specify required voice coil diameters, cone depths, surround materials, or target annual quantities..."></textarea>
-          </div>
-          <button type="submit" id="rfqSubmitBtn" class="btn-accent" style="width: 100%; padding: 0.85rem; font-size: 13px; margin-top: 0.5rem;">
-            SUBMIT B2B QUOTATION REQUEST
-          </button>
-        </form>
+    container.innerHTML = `
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
+        <h3 style="font-family: var(--font-display); font-size: 18px; font-weight: 800; text-transform: uppercase; color: var(--text-primary);">
+          Request Official SPEAKERPARTPRO Quotation
+        </h3>
+        <button id="closeRfqModalBtn" style="background: transparent; border: none; color: var(--text-secondary); cursor: pointer; font-size: 20px;">✕</button>
       </div>
+      <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.6;">
+        Direct factory quotation from master manufacturer SPEAKERPARTPRO (Jaipur, India). We provide custom OEM tooling, evaluation samples, and global container shipping.
+      </p>
+      <form id="rfqForm">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="form-group">
+            <label class="form-label">Full Name *</label>
+            <input type="text" id="rfqName" required class="form-control" placeholder="John Doe">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Company / Brand *</label>
+            <input type="text" id="rfqCompany" required class="form-control" placeholder="Pro Audio LLC">
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="form-group">
+            <label class="form-label">Business Email *</label>
+            <input type="email" id="rfqEmail" required class="form-control" placeholder="purchasing@company.com">
+          </div>
+          <div class="form-group">
+            <label class="form-label">WhatsApp / Phone *</label>
+            <input type="tel" id="rfqPhone" required class="form-control" placeholder="+1 (555) 000-0000">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Destination Country & Port *</label>
+          <input type="text" id="rfqCountry" required class="form-control" placeholder="United States (DHL Express / Long Beach Port)">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Inquiry Details / Specific Dimensions</label>
+          <textarea id="rfqDetails" rows="3" class="form-control" placeholder="Specify required voice coil diameters, cone depths, surround materials, or target annual quantities..."></textarea>
+        </div>
+        <button type="submit" id="rfqSubmitBtn" class="btn-accent" style="width: 100%; padding: 0.85rem; font-size: 13px; margin-top: 0.5rem;">
+          SUBMIT B2B QUOTATION REQUEST
+        </button>
+      </form>
     `;
 
-    document.body.appendChild(modal);
-
     document.getElementById('closeRfqModalBtn').addEventListener('click', closeRfqModal);
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) closeRfqModal();
-    });
+    bindRfqSubmit();
+  }
 
-    document.getElementById('rfqForm').addEventListener('submit', async (e) => {
+  function bindRfqSubmit() {
+    const form = document.getElementById('rfqForm');
+    if (!form) return;
+
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const submitBtn = document.getElementById('rfqSubmitBtn');
       if (submitBtn) {
@@ -508,7 +505,10 @@
         submitBtn.innerText = 'TRANSMITTING INQUIRY...';
       }
 
+      const inquiryId = 'RFQ-' + Math.floor(10000 + Math.random() * 90000);
       const payload = {
+        id: inquiryId,
+        timestamp: new Date().toISOString(),
         name: document.getElementById('rfqName')?.value || '',
         company: document.getElementById('rfqCompany')?.value || '',
         email: document.getElementById('rfqEmail')?.value || '',
@@ -523,34 +523,151 @@
         }))
       };
 
+      // 1. Save to local browser storage backup (so inquiries are never lost)
       try {
-        const res = await fetch('/api/inquiries', {
+        const stored = JSON.parse(localStorage.getItem('spp_inquiries') || '[]');
+        stored.unshift({
+          id: inquiryId,
+          timestamp: payload.timestamp,
+          fullName: payload.name,
+          company: payload.company,
+          email: payload.email,
+          phone: payload.phone,
+          countryPort: payload.country,
+          category: payload.items.length ? payload.items.map(i => `${i.name} (x${i.quantity})`).join(', ') : 'Wholesale Components',
+          quantityTier: payload.items.length ? `${payload.items.reduce((s, i) => s + (i.quantity || 1), 0)} units` : '500+ units',
+          shippingMethod: 'Air Express / Ocean Freight',
+          notes: payload.message,
+          status: 'New'
+        });
+        localStorage.setItem('spp_inquiries', JSON.stringify(stored));
+      } catch (err) {}
+
+      // 2. Dispatch to API endpoint
+      try {
+        await fetch('/api/inquiries', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
-        const data = await res.json();
-        if (data && data.success) {
-          alert(`Thank you! Your quotation request (${data.inquiry.id}) has been recorded at the SPEAKERPARTPRO B2B Sales Desk. A technical export representative will contact you with Proforma pricing within 24 hours.`);
-        } else {
-          alert('Thank you! Your quotation request has been transmitted to SPEAKERPARTPRO B2B Sales Desk.');
-        }
-      } catch (err) {
-        alert('Thank you! Your quotation request has been transmitted to SPEAKERPARTPRO B2B Sales Desk.');
-      }
+      } catch (err) {}
 
-      closeRfqModal();
+      // 3. Clear cart
       rfqCart = [];
       saveCart();
-      if (submitBtn) {
-        submitBtn.disabled = false;
-        submitBtn.innerText = 'SUBMIT B2B QUOTATION REQUEST';
-      }
+
+      // 4. Render Rich Confirmation View with Instant WhatsApp & Email Action
+      renderRfqSuccess(inquiryId, payload);
     });
+  }
+
+  function renderRfqSuccess(inquiryId, payload) {
+    const container = document.getElementById('rfqModalContainer');
+    if (!container) return;
+
+    const itemsSummary = payload.items && payload.items.length > 0
+      ? payload.items.map(i => `• ${i.name} (Qty: ${i.quantity})`).join('\n')
+      : '• Custom wholesale transducer component request';
+
+    const waText = `*NEW B2B RFQ - SPEAKERPARTPRO*
+*RFQ ID:* ${inquiryId}
+*Name:* ${payload.name}
+*Company:* ${payload.company}
+*Email:* ${payload.email}
+*Phone:* ${payload.phone}
+*Destination:* ${payload.country}
+
+*Requested Components:*
+${itemsSummary}
+
+*Notes:* ${payload.message || 'Please provide proforma pricing with FOB/CIF shipping.'}`;
+
+    const waLink = `https://wa.me/919252192491?text=${encodeURIComponent(waText)}`;
+
+    const mailSubject = `B2B Quotation Request [${inquiryId}] - ${payload.company}`;
+    const mailBody = `Hello SPEAKERPARTPRO Sales Desk,
+
+I have submitted an official wholesale quotation request:
+
+RFQ ID: ${inquiryId}
+Name: ${payload.name}
+Company: ${payload.company}
+Email: ${payload.email}
+Phone/WhatsApp: ${payload.phone}
+Destination: ${payload.country}
+
+Requested Components:
+${itemsSummary}
+
+Notes:
+${payload.message || 'Standard proforma quotation requested.'}
+
+Best regards,
+${payload.name}`;
+
+    const mailtoLink = `mailto:speakerpartpro@gmail.com?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
+
+    container.innerHTML = `
+      <div style="text-align: center; padding: 0.5rem 0;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #DCFCE7; color: #16A34A; display: inline-flex; align-items: center; justify-content: center; font-size: 26px; margin-bottom: 0.75rem;">✓</div>
+        <h3 style="font-family: var(--font-display); font-size: 20px; font-weight: 800; text-transform: uppercase; color: var(--text-primary); margin-bottom: 0.35rem;">
+          Quotation Request Generated
+        </h3>
+        <div style="margin-bottom: 1rem;">
+          <span style="font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--accent); background: var(--accent-light); padding: 0.25rem 0.75rem; border-radius: 6px; border: 1px solid rgba(255, 90, 0, 0.25);">
+            ID: ${inquiryId}
+          </span>
+        </div>
+        <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6; max-width: 480px; margin: 0 auto 1.25rem;">
+          Your bill of materials has been recorded for technical export review. For immediate priority processing and same-day sample dispatch, forward this RFQ directly to our factory desk:
+        </p>
+
+        <!-- WhatsApp Instant Forwarder -->
+        <a href="${waLink}" target="_blank" rel="noopener noreferrer" style="display: block; margin-bottom: 0.75rem; text-decoration: none;">
+          <button class="btn-whatsapp" style="width: 100%; justify-content: center; padding: 0.85rem; font-size: 14px;">
+            <img src="/assets/whatsapp.png" alt="WhatsApp" style="width: 18px; height: 18px; margin-right: 8px;">
+            Forward to Factory WhatsApp (+91 92521 92491)
+          </button>
+        </a>
+
+        <!-- Direct Email Forwarder -->
+        <a href="${mailtoLink}" style="display: block; margin-bottom: 1.25rem; text-decoration: none;">
+          <button class="btn-outline" style="width: 100%; justify-content: center; padding: 0.75rem; font-size: 13px;">
+            ✉️ Email Directly to Sales (speakerpartpro@gmail.com)
+          </button>
+        </a>
+
+        <button id="rfqDoneBtn" class="btn-accent" style="width: 100%; padding: 0.75rem; font-size: 12px; background: #111215;">
+          Done / Return to Catalog
+        </button>
+      </div>
+    `;
+
+    document.getElementById('rfqDoneBtn').addEventListener('click', closeRfqModal);
+  }
+
+  function createRfqModal() {
+    if (document.getElementById('rfqModal')) return;
+
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.id = 'rfqModal';
+    modal.innerHTML = `
+      <div class="modal-container" id="rfqModalContainer"></div>
+    `;
+
+    document.body.appendChild(modal);
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeRfqModal();
+    });
+
+    renderRfqForm();
   }
 
   function openRfqModal() {
     createRfqModal();
+    renderRfqForm();
     document.getElementById('rfqModal').classList.add('active');
   }
 

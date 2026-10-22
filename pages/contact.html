@@ -62,7 +62,7 @@
       <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 3.5rem; margin-bottom: 4rem;" class="contact-grid">
         
         <!-- Left: RFQ Quotation Form -->
-        <div style="background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 2.5rem;">
+        <div id="contactFormContainer" style="background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 2.5rem;">
           <h2 style="font-family: var(--font-display); font-size: 22px; font-weight: 800; text-transform: uppercase; color: var(--text-primary); margin-bottom: 0.5rem;">
             Submit Technical RFQ or Wholesale Inquiry
           </h2>
@@ -74,33 +74,33 @@
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
               <div class="form-group">
                 <label class="form-label">Full Name *</label>
-                <input type="text" required class="form-control" placeholder="John Doe">
+                <input type="text" id="contactName" required class="form-control" placeholder="John Doe">
               </div>
               <div class="form-group">
                 <label class="form-label">Company / Brand Name *</label>
-                <input type="text" required class="form-control" placeholder="Acme Audio LLC">
+                <input type="text" id="contactCompany" required class="form-control" placeholder="Acme Audio LLC">
               </div>
             </div>
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
               <div class="form-group">
                 <label class="form-label">Work Email *</label>
-                <input type="email" required class="form-control" placeholder="john@acmeaudio.com">
+                <input type="email" id="contactEmail" required class="form-control" placeholder="john@acmeaudio.com">
               </div>
               <div class="form-group">
                 <label class="form-label">WhatsApp / Direct Phone *</label>
-                <input type="tel" required class="form-control" placeholder="+1 (555) 000-0000">
+                <input type="tel" id="contactPhone" required class="form-control" placeholder="+1 (555) 000-0000">
               </div>
             </div>
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
               <div class="form-group">
                 <label class="form-label">Destination Country *</label>
-                <input type="text" required class="form-control" placeholder="United States">
+                <input type="text" id="contactCountry" required class="form-control" placeholder="United States">
               </div>
               <div class="form-group">
                 <label class="form-label">Inquiry Purpose</label>
-                <select class="form-control">
+                <select id="contactPurpose" class="form-control">
                   <option>Evaluation Sample Order</option>
                   <option>Production Run (500–5,000 units)</option>
                   <option>Container Load (FCL/LCL)</option>
@@ -112,10 +112,10 @@
 
             <div class="form-group">
               <label class="form-label">Technical Requirements & Component Specifications *</label>
-              <textarea rows="4" required class="form-control" placeholder="Describe required voice coil sizes (e.g. 75.5mm Kapton), cone sizes (12&quot;, 15&quot;, 18&quot;), surround types, or target monthly quantities..."></textarea>
+              <textarea id="contactMessage" rows="4" required class="form-control" placeholder="Describe required voice coil sizes (e.g. 75.5mm Kapton), cone sizes (12&quot;, 15&quot;, 18&quot;), surround types, or target monthly quantities..."></textarea>
             </div>
 
-            <button type="submit" class="btn-accent" style="width: 100%; padding: 0.85rem; font-size: 14px; margin-top: 0.5rem;">
+            <button type="submit" id="contactSubmitBtn" class="btn-accent" style="width: 100%; padding: 0.85rem; font-size: 14px; margin-top: 0.5rem;">
               SEND FORMAL B2B INQUIRY
             </button>
           </form>
@@ -191,13 +191,158 @@
   </style>
 
   <footer class="site-footer"></footer>
-  <script src="/scripts/app.js????v=spp8"></script>
+  <script src="/scripts/app.js?v=spp8"></script>
   <script>
-    document.getElementById('contactForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      alert('Thank you! Your B2B inquiry has been received by SPEAKERPARTPRO sales desk in Jaipur. We will review your requirements and respond with technical specifications and pricing within 24 hours.');
-      document.getElementById('contactForm').reset();
-    });
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+      contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const submitBtn = document.getElementById('contactSubmitBtn');
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.innerText = 'TRANSMITTING INQUIRY...';
+        }
+
+        const name = document.getElementById('contactName')?.value.trim() || '';
+        const company = document.getElementById('contactCompany')?.value.trim() || '';
+        const email = document.getElementById('contactEmail')?.value.trim() || '';
+        const phone = document.getElementById('contactPhone')?.value.trim() || '';
+        const country = document.getElementById('contactCountry')?.value.trim() || '';
+        const purpose = document.getElementById('contactPurpose')?.value || 'Wholesale Inquiry';
+        const message = document.getElementById('contactMessage')?.value.trim() || '';
+
+        const inquiryId = 'INQ-' + Math.floor(10000 + Math.random() * 90000);
+        const timestamp = new Date().toISOString();
+
+        // 1. Save to local browser storage backup (so inquiries are never lost on Vercel)
+        try {
+          const stored = JSON.parse(localStorage.getItem('spp_inquiries') || '[]');
+          stored.unshift({
+            id: inquiryId,
+            timestamp: timestamp,
+            createdAt: timestamp,
+            fullName: name,
+            company: company,
+            email: email,
+            phone: phone,
+            countryPort: country,
+            category: purpose,
+            quantityTier: purpose.includes('Container') ? 'FCL/LCL Container' : (purpose.includes('Sample') ? 'Sample Evaluation' : '500+ units'),
+            shippingMethod: 'Air Express / Ocean Freight',
+            notes: message,
+            status: 'New'
+          });
+          localStorage.setItem('spp_inquiries', JSON.stringify(stored));
+        } catch (err) {}
+
+        // 2. Transmit to backend API endpoint
+        try {
+          await fetch('/api/inquiries', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              id: inquiryId,
+              fullName: name,
+              company: company,
+              email: email,
+              phone: phone,
+              countryPort: country,
+              category: purpose,
+              notes: message
+            })
+          });
+        } catch (err) {}
+
+        // 3. Prepare direct communication links
+        const waText = `*NEW B2B INQUIRY - SPEAKERPARTPRO*
+*Inquiry ID:* ${inquiryId}
+*Name:* ${name}
+*Company:* ${company}
+*Email:* ${email}
+*Phone:* ${phone}
+*Destination Country:* ${country}
+*Purpose:* ${purpose}
+
+*Technical Specs & Requirements:*
+${message}`;
+
+        const waLink = `https://wa.me/919252192491?text=${encodeURIComponent(waText)}`;
+
+        const mailSubject = `B2B Inquiry [${inquiryId}] - ${company} (${purpose})`;
+        const mailBody = `Hello SPEAKERPARTPRO Factory Sales Desk,
+
+I have submitted an official B2B wholesale inquiry:
+
+Inquiry ID: ${inquiryId}
+Name: ${name}
+Company: ${company}
+Email: ${email}
+Phone/WhatsApp: ${phone}
+Destination Country: ${country}
+Inquiry Purpose: ${purpose}
+
+Technical Requirements & Component Specifications:
+${message}
+
+Please confirm receipt and provide formal proforma pricing and lead times.
+
+Best regards,
+${name}
+${company}`;
+
+        const mailtoLink = `mailto:speakerpartpro@gmail.com?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
+
+        // 4. Render Rich Confirmation View
+        const container = document.getElementById('contactFormContainer');
+        if (container) {
+          container.innerHTML = `
+            <div style="text-align: center; padding: 1rem 0;">
+              <div style="width: 56px; height: 56px; border-radius: 50%; background: #DCFCE7; color: #16A34A; display: inline-flex; align-items: center; justify-content: center; font-size: 28px; margin-bottom: 1rem;">✓</div>
+              <h3 style="font-family: var(--font-display); font-size: 22px; font-weight: 800; text-transform: uppercase; color: var(--text-primary); margin-bottom: 0.35rem;">
+                Inquiry Logged Successfully
+              </h3>
+              <div style="margin-bottom: 1.25rem;">
+                <span style="font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--accent); background: var(--accent-light); padding: 0.35rem 0.85rem; border-radius: 6px; border: 1px solid rgba(255, 90, 0, 0.25);">
+                  Reference ID: ${inquiryId}
+                </span>
+              </div>
+              <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.6; max-width: 520px; margin: 0 auto 1.5rem;">
+                Thank you, <strong>${name}</strong>. Your technical requirements for <strong>${company}</strong> have been recorded in our factory system. A senior acoustic engineer will evaluate your specs within 24 hours.
+              </p>
+
+              <div style="background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; text-align: left; margin-bottom: 1.5rem; font-size: 13px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.75rem;">
+                  <div><span style="color: var(--text-tertiary);">Inquiry Purpose:</span> <strong style="color: var(--text-primary);">${purpose}</strong></div>
+                  <div><span style="color: var(--text-tertiary);">Destination:</span> <strong style="color: var(--text-primary);">${country}</strong></div>
+                </div>
+                <div><span style="color: var(--text-tertiary);">Contact:</span> <span style="color: var(--text-primary);">${email} | ${phone}</span></div>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 0.75rem; max-width: 460px; margin: 0 auto;">
+                <!-- Instant Factory WhatsApp Button -->
+                <a href="${waLink}" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
+                  <button class="btn-whatsapp" style="width: 100%; justify-content: center; padding: 0.85rem; font-size: 14px; border-radius: 8px;">
+                    <img src="/assets/whatsapp.png" alt="WhatsApp" style="width: 18px; height: 18px; margin-right: 8px;">
+                    Forward to Factory WhatsApp (+91 92521 92491)
+                  </button>
+                </a>
+
+                <!-- Direct Email Forwarder -->
+                <a href="${mailtoLink}" style="text-decoration: none;">
+                  <button class="btn-outline" style="width: 100%; justify-content: center; padding: 0.75rem; font-size: 13px; border-radius: 8px;">
+                    ✉️ Email Directly to Sales (speakerpartpro@gmail.com)
+                  </button>
+                </a>
+
+                <button onclick="window.location.reload()" class="btn-secondary" style="width: 100%; padding: 0.65rem; font-size: 12px; margin-top: 0.5rem; cursor: pointer; border-radius: 6px;">
+                  Submit Another Inquiry
+                </button>
+              </div>
+            </div>
+          `;
+        }
+      });
+    }
   </script>
 </body>
 </html>

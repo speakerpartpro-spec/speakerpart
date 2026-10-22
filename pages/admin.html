@@ -751,12 +751,43 @@
     }
 
     async function loadInquiries() {
+      let apiInquiries = [];
       try {
         const res = await fetch('/api/admin/inquiries');
-        allInquiries = await res.json();
-        renderInquiriesTable();
-        renderDashboardInquiries();
+        if (res.ok) {
+          apiInquiries = await res.json();
+        }
       } catch (e) {}
+
+      let localInquiries = [];
+      try {
+        localInquiries = JSON.parse(localStorage.getItem('spp_inquiries') || '[]');
+      } catch (e) {}
+
+      // Merge and deduplicate by id
+      const map = new Map();
+      [...localInquiries, ...apiInquiries].forEach(item => {
+        if (item && item.id && !map.has(item.id)) {
+          map.set(item.id, item);
+        }
+      });
+
+      allInquiries = Array.from(map.values());
+      // Sort descending by date/id
+      allInquiries.sort((a, b) => new Date(b.createdAt || b.timestamp || 0) - new Date(a.createdAt || a.timestamp || 0));
+
+      renderInquiriesTable();
+      renderDashboardInquiries();
+
+      // Keep stats badges perfectly synced with live inquiries
+      const total = allInquiries.length;
+      const newCount = allInquiries.filter(i => (i.status || 'New') === 'New').length;
+      const countEl = document.getElementById('statInquiriesCount');
+      if (countEl) countEl.textContent = total;
+      const newEl = document.getElementById('statNewInquiriesCount');
+      if (newEl) newEl.textContent = newCount + ' New Awaiting Proforma';
+      const badgeEl = document.getElementById('inquiryBadgeCount');
+      if (badgeEl) badgeEl.textContent = total;
     }
 
     async function loadCategories() {
@@ -1015,20 +1046,36 @@
     }
 
     async function updateInquiryStatus(id, newStatus) {
-      await fetch('/api/admin/inquiries', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id, status: newStatus })
-      });
+      try {
+        let local = JSON.parse(localStorage.getItem('spp_inquiries') || '[]');
+        local = local.map(item => item.id === id ? { ...item, status: newStatus } : item);
+        localStorage.setItem('spp_inquiries', JSON.stringify(local));
+      } catch (e) {}
+
+      try {
+        await fetch('/api/admin/inquiries', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id, status: newStatus })
+        });
+      } catch (e) {}
+
       await loadInquiries();
-      await loadStats();
     }
 
     async function deleteInquiry(id) {
       if (!confirm('Delete quotation record ' + id + '?')) return;
-      await fetch('/api/admin/inquiries?id=' + encodeURIComponent(id), { method: 'DELETE' });
+      try {
+        let local = JSON.parse(localStorage.getItem('spp_inquiries') || '[]');
+        local = local.filter(item => item.id !== id);
+        localStorage.setItem('spp_inquiries', JSON.stringify(local));
+      } catch (e) {}
+
+      try {
+        await fetch('/api/admin/inquiries?id=' + encodeURIComponent(id), { method: 'DELETE' });
+      } catch (e) {}
+
       await loadInquiries();
-      await loadStats();
     }
 
     function viewInquiryDetails(id) {
