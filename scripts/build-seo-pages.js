@@ -220,31 +220,31 @@ products.forEach(p => {
   // Pre-fill Detail Category & H1 Title
   html = html.replace(
     /<div id="detailCategory"[^>]*>[\s\S]*?<\/div>/,
-    `<div id="detailCategory" style="font-family: var(--font-display); font-size: 13px; font-weight: 800; text-transform: uppercase; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 0.5rem;">${escapeHtml(catName)} • SPEAKERPARTPRO</div>`
+    `<div id="detailCategory" style="font-family: var(--font-display); font-size: 14px; font-weight: 800; text-transform: uppercase; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 0.5rem;">${escapeHtml(catName)} • SPEAKERPARTPRO</div>`
   );
   html = html.replace(
     /<h1 id="detailTitle"[^>]*>[\s\S]*?<\/h1>/,
-    `<h1 id="detailTitle" style="font-family: var(--font-display); font-size: 28px; font-weight: 800; color: var(--text-primary); line-height: 1.3; margin-bottom: 1rem;">${escapeHtml(p.name)}</h1>`
+    `<h1 id="detailTitle" style="font-family: var(--font-display); font-size: 32px; font-weight: 800; color: var(--text-primary); line-height: 1.3; margin-bottom: 1rem;">${escapeHtml(p.name)}</h1>`
   );
 
   // Pre-fill Price & MOQ
   html = html.replace(
     /<div id="detailPrice"[^>]*>[\s\S]*?<\/div>/,
-    `<div id="detailPrice" style="font-family: var(--font-mono); font-size: 24px; font-weight: 800; color: var(--accent);"${price ? ` data-usd-price="${price}"` : ''}>${escapeHtml(priceFormatted)}</div>`
+    `<div id="detailPrice" style="font-family: var(--font-mono); font-size: 26px; font-weight: 800; color: var(--accent);"${price ? ` data-usd-price="${price}"` : ''}>${escapeHtml(priceFormatted)}</div>`
   );
   html = html.replace(
     /<div id="detailMoq"[^>]*>[\s\S]*?<\/div>/,
-    `<div id="detailMoq" style="font-size: 12px; background: var(--bg-secondary); border: 1px solid var(--border-strong); color: var(--text-secondary); padding: 0.25rem 0.65rem; border-radius: 6px; font-weight: 600;">MOQ: ${escapeHtml(p.moq || '500 units')}</div>`
+    `<div id="detailMoq" style="font-size: 13px; background: var(--bg-secondary); border: 1px solid var(--border-strong); color: var(--text-secondary); padding: 0.25rem 0.65rem; border-radius: 6px; font-weight: 600;">MOQ: ${escapeHtml(p.moq || '500 units')}</div>`
   );
 
   // Pre-fill Short Description & Applications
   html = html.replace(
     /<div id="detailShortDesc"[^>]*>[\s\S]*?<\/div>/,
-    `<div id="detailShortDesc" style="font-size: 14px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 2rem; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 1.25rem 0;">${escapeHtml(p.short_desc || p.applications || 'Precision electro-acoustic transducer component engineered for high durability and acoustic accuracy.')}</div>`
+    `<div id="detailShortDesc" style="font-size: 15.5px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 2rem; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 1.25rem 0;">${escapeHtml(p.short_desc || p.applications || 'Precision electro-acoustic transducer component engineered for high durability and acoustic accuracy.')}</div>`
   );
   html = html.replace(
     /<p id="detailApplications"[^>]*>[\s\S]*?<\/p>/,
-    `<p id="detailApplications" style="font-size: 13px; color: var(--text-secondary); line-height: 1.7;">${escapeHtml(p.applications || 'High-output audio systems, pro touring sound enclosures, competition SPL car audio subwoofers, and B2B OEM manufacturing.')}</p>`
+    `<p id="detailApplications" style="font-size: 14.5px; color: var(--text-secondary); line-height: 1.7;">${escapeHtml(p.applications || 'High-output audio systems, pro touring sound enclosures, competition SPL car audio subwoofers, and B2B OEM manufacturing.')}</p>`
   );
 
   // Pre-fill Image with explicit width/height
@@ -393,24 +393,24 @@ categories.forEach(c => {
         <div class="product-details">
           <div>
             <a href="${productUrl}">
-              <h3 style="font-size: 13px; font-weight: 700; color: var(--text-primary); line-height: 1.4; margin-bottom: 0.5rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;" title="${escapeHtml(p.name)}">
+              <h3 style="font-size: 15px; font-weight: 700; color: var(--text-primary); line-height: 1.4; margin-bottom: 0.5rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;" title="${escapeHtml(p.name)}">
                 ${escapeHtml(p.name)}
               </h3>
             </a>
-            <div style="font-size: 11px; color: #777; margin-bottom: 0.75rem;">
+            <div style="font-size: 12px; color: var(--text-tertiary); margin-bottom: 0.75rem;">
               MOQ: ${escapeHtml(p.moq || '500 units')}
             </div>
           </div>
           <div>
-            <div style="font-family: var(--font-mono); font-size: 14px; font-weight: 700; color: var(--accent); margin-bottom: 0.75rem;">
+            <div style="font-family: var(--font-mono); font-size: 15.5px; font-weight: 700; color: var(--accent); margin-bottom: 0.75rem;">
               ${price}
             </div>
             <div style="display: flex; gap: 0.5rem;">
-              <button onclick="window.TSPC.addToCart({ id: '${p.id}', name: '${p.name.replace(/'/g, "\\'")}', slug: '${p.slug}', featured_image: '${img}', moq: '${p.moq || '500 units'}', variants: { price: ${p.variants && p.variants.price ? p.variants.price : 'null'} } })" class="btn-accent" style="flex: 1; padding: 0.5rem; font-size: 11px;">
+              <button onclick="window.TSPC.addToCart({ id: '${p.id}', name: '${p.name.replace(/'/g, "\\'")}', slug: '${p.slug}', featured_image: '${img}', moq: '${p.moq || '500 units'}', variants: { price: ${p.variants && p.variants.price ? p.variants.price : 'null'} } })" class="btn-accent" style="flex: 1; padding: 0.55rem; font-size: 12px;">
                 Add to RFQ
               </button>
               <a href="${productUrl}">
-                <button class="btn-outline" style="padding: 0.5rem 0.75rem; font-size: 11px;">
+                <button class="btn-outline" style="padding: 0.55rem 0.8rem; font-size: 12px;">
                   Specs
                 </button>
               </a>

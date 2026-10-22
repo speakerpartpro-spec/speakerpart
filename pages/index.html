@@ -806,28 +806,28 @@
               </a>
               <div class="product-details">
                 <div>
-                  <div style="font-family: var(--font-display); font-size: 11px; text-transform: uppercase; color: var(--accent); letter-spacing: 0.08em; margin-bottom: 0.3rem;">
+                  <div style="font-family: var(--font-display); font-size: 12px; text-transform: uppercase; color: var(--accent); letter-spacing: 0.08em; margin-bottom: 0.3rem;">
                     ${p.category_name || 'Transducer Component'}
                   </div>
                   <a href="${productUrl}" style="display: block;">
-                    <h3 style="font-size: 13px; font-weight: 700; color: var(--text-primary); line-height: 1.4; margin-bottom: 0.5rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                    <h3 style="font-size: 15px; font-weight: 700; color: var(--text-primary); line-height: 1.4; margin-bottom: 0.5rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
                       ${p.name}
                     </h3>
                   </a>
-                  <div style="font-size: 11px; color: #777; margin-bottom: 0.75rem;">
+                  <div style="font-size: 12px; color: var(--text-tertiary); margin-bottom: 0.75rem;">
                     MOQ: ${p.moq || '500 units'}
                   </div>
                 </div>
                 <div>
-                  <div style="font-family: var(--font-mono); font-size: 14px; font-weight: 700; color: var(--accent); margin-bottom: 0.75rem;" data-usd-price="${p.variants && p.variants.price ? p.variants.price : ''}">
+                  <div style="font-family: var(--font-mono); font-size: 15.5px; font-weight: 700; color: var(--accent); margin-bottom: 0.75rem;" data-usd-price="${p.variants && p.variants.price ? p.variants.price : ''}">
                     ${price}
                   </div>
                   <div style="display: flex; gap: 0.5rem;">
-                    <button onclick="window.TSPC.addToCart({ id: '${p.id}', name: '${p.name.replace(/'/g, "\\'")}', slug: '${p.slug}', featured_image: '${img}', moq: '${p.moq || '500 units'}', variants: { price: ${p.variants && p.variants.price ? p.variants.price : 'null'} } })" class="btn-accent" style="flex: 1; padding: 0.5rem; font-size: 11px;">
+                    <button onclick="window.TSPC.addToCart({ id: '${p.id}', name: '${p.name.replace(/'/g, "\\'")}', slug: '${p.slug}', featured_image: '${img}', moq: '${p.moq || '500 units'}', variants: { price: ${p.variants && p.variants.price ? p.variants.price : 'null'} } })" class="btn-accent" style="flex: 1; padding: 0.55rem; font-size: 12px;">
                       Add to RFQ
                     </button>
                     <a href="/product-detail.html?slug=${p.slug}" style="display: flex;">
-                      <button class="btn-outline" style="padding: 0.5rem 0.75rem; font-size: 11px;">
+                      <button class="btn-outline" style="padding: 0.55rem 0.8rem; font-size: 12px;">
                         Specs
                       </button>
                     </a>

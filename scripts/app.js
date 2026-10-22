@@ -123,13 +123,13 @@
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 0.35rem; color: #9CA3AF; flex-shrink: 0;">
                   <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                 </svg>
-                <input type="text" name="q" placeholder="Search parts..." autocomplete="off" style="font-size: 11px;">
+                <input type="text" name="q" placeholder="Search parts..." autocomplete="off" style="font-size: 13.5px;">
               </div>
             </form>
 
             <!-- Currency selector -->
             <div style="position: relative;">
-              <select class="currency-selector" id="currencySwitcher" style="padding: 0.2rem 0.45rem; font-size: 11px; height: 30px; border-radius: 4px;">
+              <select class="currency-selector" id="currencySwitcher" style="padding: 0.25rem 0.55rem; font-size: 12.5px; height: 34px; border-radius: 4px;">
                 ${Object.keys(CURRENCIES).map(code => {
                   const c = CURRENCIES[code];
                   return `<option value="${code}" ${code === currentCurrency ? 'selected' : ''}>${c.flag} ${code} (${c.symbol})</option>`;
@@ -144,11 +144,11 @@
                 <line x1="3" y1="6" x2="21" y2="6"></line>
                 <path d="M16 10a4 4 0 0 1-8 0"></path>
               </svg>
-              <span class="cart-badge-count" style="position: absolute; top: -5px; right: -5px; background: var(--accent); color: #FFFFFF; font-size: 9px; font-weight: 800; width: 16px; height: 16px; border-radius: 50%; display: none; align-items: center; justify-content: center; box-shadow: 0 1px 6px var(--accent-glow);">0</span>
+              <span class="cart-badge-count" style="position: absolute; top: -5px; right: -5px; background: var(--accent); color: #FFFFFF; font-size: 10px; font-weight: 800; width: 18px; height: 18px; border-radius: 50%; display: none; align-items: center; justify-content: center; box-shadow: 0 1px 6px var(--accent-glow);">0</span>
             </button>
 
             <!-- Prominent Orange CTA: Request B2B RFQ -->
-            <button onclick="window.TSPC.openRfqModal()" class="btn-accent lg-quote-btn" style="display: none; height: 30px; padding: 0 0.85rem; font-size: 11px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; border-radius: 4px;">
+            <button onclick="window.TSPC.openRfqModal()" class="btn-accent lg-quote-btn" style="display: none; height: 34px; padding: 0 0.95rem; font-size: 12.5px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; border-radius: 4px;">
               Request RFQ
             </button>
 
@@ -172,7 +172,7 @@
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 0.4rem; color: #9CA3AF;">
               <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
-            <input type="text" name="q" placeholder="Search voice coils, cones, surrounds, spiders..." autocomplete="off" style="font-size: 11px;">
+            <input type="text" name="q" placeholder="Search voice coils, cones, surrounds, spiders..." autocomplete="off" style="font-size: 14.5px;">
           </div>
         </form>
       </div>
@@ -246,16 +246,16 @@
             <a href="/index.html" style="display: inline-block; margin-bottom: 1.25rem;">
               <img src="/assets/speakerpartpro-horizontal-light.png?????v=spp9" alt="SPEAKERPARTPRO" class="brand-logo-img" style="height: 44px; width: auto; object-fit: contain;">
             </a>
-            <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.5rem;">
+            <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.5rem;">
               <strong style="color: var(--text-primary);">SPEAKERPARTPRO</strong> is a premier manufacturer and global exporter of precision loudspeaker components, voice coils, surrounds, cones, spiders, and acoustic assemblies.
             </p>
             <div style="margin-bottom: 1rem;">
-              <span style="display: block; font-family: var(--font-display); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-primary); margin-bottom: 0.75rem;">Quality & Standards:</span>
+              <span style="display: block; font-family: var(--font-display); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-primary); margin-bottom: 0.75rem;">Quality & Standards:</span>
               <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-                <span style="display: inline-flex; align-items: center; gap: 0.35rem; font-size: 11px; background: #FFFFFF; border: 1px solid var(--border); color: var(--text-primary); padding: 0.3rem 0.65rem; border-radius: var(--radius-sm); box-shadow: var(--shadow-xs);">
+                <span style="display: inline-flex; align-items: center; gap: 0.35rem; font-size: 12px; background: #FFFFFF; border: 1px solid var(--border); color: var(--text-primary); padding: 0.35rem 0.7rem; border-radius: var(--radius-sm); box-shadow: var(--shadow-xs);">
                   <span style="color: var(--accent); font-weight: 700;">✓</span> ISO 9001:2015 CERTIFIED
                 </span>
-                <span style="display: inline-flex; align-items: center; gap: 0.35rem; font-size: 11px; background: #FFFFFF; border: 1px solid var(--border); color: var(--text-primary); padding: 0.3rem 0.65rem; border-radius: var(--radius-sm); box-shadow: var(--shadow-xs);">
+                <span style="display: inline-flex; align-items: center; gap: 0.35rem; font-size: 12px; background: #FFFFFF; border: 1px solid var(--border); color: var(--text-primary); padding: 0.35rem 0.7rem; border-radius: var(--radius-sm); box-shadow: var(--shadow-xs);">
                   <span style="color: var(--accent); font-weight: 700;">✓</span> GLOBAL EXPORT LICENSED
                 </span>
               </div>
@@ -264,10 +264,10 @@
 
           <!-- Column 2: Component Categories -->
           <div>
-            <h4 style="font-family: var(--font-display); font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-primary); margin-bottom: 1.25rem;">
+            <h4 style="font-family: var(--font-display); font-size: 15px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-primary); margin-bottom: 1.25rem;">
               Acoustic Categories
             </h4>
-            <div style="display: flex; flex-direction: column; gap: 0.65rem; font-size: 13px; color: var(--text-secondary);">
+            <div style="display: flex; flex-direction: column; gap: 0.65rem; font-size: 14px; color: var(--text-secondary);">
               <a href="/products.html?category=voice-coils" style="transition: color 0.2s;" onmouseover="this.style.color='#FF5A00'" onmouseout="this.style.color=''">High-Temp Voice Coils (TIL/Kapton)</a>
               <a href="/products.html?category=speaker-cones" style="transition: color 0.2s;" onmouseover="this.style.color='#FF5A00'" onmouseout="this.style.color=''">Air-Dried UKP Pulp Cones</a>
               <a href="/products.html?category=speaker-surrounds" style="transition: color 0.2s;" onmouseover="this.style.color='#FF5A00'" onmouseout="this.style.color=''">Extra-Thick SPL Foam Surrounds</a>
@@ -279,10 +279,10 @@
 
           <!-- Column 3: Engineering & Export -->
           <div>
-            <h4 style="font-family: var(--font-display); font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-primary); margin-bottom: 1.25rem;">
+            <h4 style="font-family: var(--font-display); font-size: 15px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-primary); margin-bottom: 1.25rem;">
               OEM Capabilities & Logistics
             </h4>
-            <div style="display: flex; flex-direction: column; gap: 0.65rem; font-size: 13px; color: var(--text-secondary);">
+            <div style="display: flex; flex-direction: column; gap: 0.65rem; font-size: 14px; color: var(--text-secondary);">
               <a href="/process.html" style="transition: color 0.2s;" onmouseover="this.style.color='#FF5A00'" onmouseout="this.style.color=''">Precision Tooling & Tolerances</a>
               <a href="/export.html" style="transition: color 0.2s;" onmouseover="this.style.color='#FF5A00'" onmouseout="this.style.color=''">Global Air & Ocean Freight</a>
               <a href="/track-shipment.html" style="transition: color 0.2s;" onmouseover="this.style.color='#FF5A00'" onmouseout="this.style.color=''">Live B2B Shipment Tracking</a>
@@ -293,24 +293,24 @@
 
           <!-- Column 4: Factory Desk & B2B Inquiry -->
           <div>
-            <h4 style="font-family: var(--font-display); font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-primary); margin-bottom: 1.25rem;">
+            <h4 style="font-family: var(--font-display); font-size: 15px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-primary); margin-bottom: 1.25rem;">
               Global Sales Desk
             </h4>
-            <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 13px; color: var(--text-secondary);">
+            <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 14px; color: var(--text-secondary);">
               <div>
-                <span style="color: var(--text-tertiary); display: block; font-size: 11px; text-transform: uppercase;">Headquarters:</span>
+                <span style="color: var(--text-tertiary); display: block; font-size: 12px; text-transform: uppercase;">Headquarters:</span>
                 <span style="color: var(--text-primary); font-weight: 500;">Jaipur, Rajasthan 302012, India</span>
               </div>
               <div>
-                <span style="color: var(--text-tertiary); display: block; font-size: 11px; text-transform: uppercase;">WhatsApp / Direct:</span>
+                <span style="color: var(--text-tertiary); display: block; font-size: 12px; text-transform: uppercase;">WhatsApp / Direct:</span>
                 <a href="https://wa.me/919252192491" style="color: var(--accent); font-weight: 700;">+91 92521 92491</a>
               </div>
               <div>
-                <span style="color: var(--text-tertiary); display: block; font-size: 11px; text-transform: uppercase;">Export Inquiries:</span>
+                <span style="color: var(--text-tertiary); display: block; font-size: 12px; text-transform: uppercase;">Export Inquiries:</span>
                 <a href="mailto:speakerpartpro@gmail.com" style="color: var(--text-primary); font-weight: 600;">speakerpartpro@gmail.com</a>
               </div>
               <div style="margin-top: 0.5rem;">
-                <button onclick="window.TSPC.openRfqModal()" class="btn-accent" style="width: 100%; font-size: 12px; padding: 0.6rem;">
+                <button onclick="window.TSPC.openRfqModal()" class="btn-accent" style="width: 100%; font-size: 13px; padding: 0.65rem;">
                   Request B2B Proforma Quote
                 </button>
               </div>
@@ -319,7 +319,7 @@
         </div>
 
         <!-- Footer Bottom Bar -->
-        <div style="border-top: 1px solid var(--border); padding-top: 1.75rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; font-size: 12px; color: var(--text-tertiary);">
+        <div style="border-top: 1px solid var(--border); padding-top: 1.75rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; font-size: 13px; color: var(--text-tertiary);">
           <div>
             © 2026 <strong style="color: var(--text-primary);">SPEAKERPARTPRO</strong>. All Rights Reserved.
           </div>
@@ -362,7 +362,7 @@
           <h3 style="font-family: var(--font-display); font-size: 16px; font-weight: 800; text-transform: uppercase; color: var(--text-primary);">
             B2B RFQ Inquiry Cart
           </h3>
-          <span class="cart-badge-count" style="background: var(--accent); color: #FFFFFF; font-size: 10px; font-weight: 800; padding: 0.15rem 0.5rem; border-radius: 9999px;">0</span>
+          <span class="cart-badge-count" style="background: var(--accent); color: #FFFFFF; font-size: 11px; font-weight: 800; padding: 0.2rem 0.55rem; border-radius: 9999px;">0</span>
         </div>
         <button id="closeCartBtn" style="background: transparent; border: none; color: var(--text-secondary); font-size: 20px; cursor: pointer; padding: 0.25rem;" title="Close">✕</button>
       </div>
@@ -407,9 +407,9 @@
       <div style="display: flex; gap: 0.75rem; background: #FFFFFF; border: 1px solid var(--border); border-radius: var(--radius); padding: 0.75rem; align-items: center; box-shadow: var(--shadow-xs);">
         <img src="${item.image}" alt="${item.name}" style="width: 54px; height: 54px; object-fit: contain; background: #F9FAFB; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 4px;">
         <div style="flex: 1; min-width: 0;">
-          <h4 style="font-size: 12px; font-weight: 700; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${item.name}</h4>
-          <div style="font-size: 11px; color: var(--text-secondary); margin-top: 2px;">MOQ: ${item.moq}</div>
-          <div style="font-family: var(--font-mono); font-size: 12px; color: var(--accent); font-weight: 700; margin-top: 2px;">
+          <h4 style="font-size: 13.5px; font-weight: 700; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${item.name}</h4>
+          <div style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;">MOQ: ${item.moq}</div>
+          <div style="font-family: var(--font-mono); font-size: 13.5px; color: var(--accent); font-weight: 700; margin-top: 2px;">
             ${item.price ? formatPrice(item.price) : 'B2B RFQ'}
           </div>
         </div>
