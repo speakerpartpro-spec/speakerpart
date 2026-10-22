@@ -7,7 +7,6 @@ Allow: /
 # Disallow sensitive internal factory administration console
 Disallow: /admin.html
 Disallow: /admin
-Disallow: /pages/admin.html
 
 # Disallow backend API endpoints
 Disallow: /api/
