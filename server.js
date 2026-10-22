@@ -341,88 +341,88 @@ const server = http.createServer(async (req, res) => {
 
   // --- 4. Page Routes ---
   if (pathname === '/admin' || pathname === '/admin.html') {
-    return sendFile(res, path.join(ROOT_DIR, 'pages', 'admin.html'), 'text/html; charset=utf-8');
+    return sendFile(res, path.join(ROOT_DIR, 'admin.html'), 'text/html; charset=utf-8');
   }
   if (pathname === '' || pathname === '/' || pathname === '/index' || pathname === '/index.html') {
-    return sendFile(res, path.join(ROOT_DIR, 'pages', 'index.html'), 'text/html; charset=utf-8');
+    return sendFile(res, path.join(ROOT_DIR, 'index.html'), 'text/html; charset=utf-8');
   }
   if (pathname === '/about' || pathname === '/about.html') {
-    return sendFile(res, path.join(ROOT_DIR, 'pages', 'about.html'), 'text/html; charset=utf-8');
+    return sendFile(res, path.join(ROOT_DIR, 'about.html'), 'text/html; charset=utf-8');
   }
   if (pathname === '/contact' || pathname === '/contact.html') {
-    return sendFile(res, path.join(ROOT_DIR, 'pages', 'contact.html'), 'text/html; charset=utf-8');
+    return sendFile(res, path.join(ROOT_DIR, 'contact.html'), 'text/html; charset=utf-8');
   }
   if (pathname === '/process' || pathname === '/process.html') {
-    return sendFile(res, path.join(ROOT_DIR, 'pages', 'process.html'), 'text/html; charset=utf-8');
+    return sendFile(res, path.join(ROOT_DIR, 'process.html'), 'text/html; charset=utf-8');
   }
   if (pathname === '/export' || pathname === '/export.html') {
-    return sendFile(res, path.join(ROOT_DIR, 'pages', 'export.html'), 'text/html; charset=utf-8');
+    return sendFile(res, path.join(ROOT_DIR, 'export.html'), 'text/html; charset=utf-8');
   }
   if (pathname === '/gallery' || pathname === '/gallery.html') {
-    return sendFile(res, path.join(ROOT_DIR, 'pages', 'gallery.html'), 'text/html; charset=utf-8');
+    return sendFile(res, path.join(ROOT_DIR, 'gallery.html'), 'text/html; charset=utf-8');
   }
   if (pathname === '/products' || pathname === '/products.html') {
-    return sendFile(res, path.join(ROOT_DIR, 'pages', 'products.html'), 'text/html; charset=utf-8');
+    return sendFile(res, path.join(ROOT_DIR, 'products.html'), 'text/html; charset=utf-8');
   }
   if (pathname === '/track-shipment' || pathname === '/track-shipment.html') {
-    return sendFile(res, path.join(ROOT_DIR, 'pages', 'track-shipment.html'), 'text/html; charset=utf-8');
+    return sendFile(res, path.join(ROOT_DIR, 'track-shipment.html'), 'text/html; charset=utf-8');
   }
   if (pathname === '/blog' || pathname === '/blog.html') {
-    return sendFile(res, path.join(ROOT_DIR, 'pages', 'blog.html'), 'text/html; charset=utf-8');
+    return sendFile(res, path.join(ROOT_DIR, 'blog.html'), 'text/html; charset=utf-8');
   }
   if (pathname.startsWith('/blog/')) {
-    return sendFile(res, path.join(ROOT_DIR, 'pages', 'blog-post.html'), 'text/html; charset=utf-8');
+    return sendFile(res, path.join(ROOT_DIR, 'blog-post.html'), 'text/html; charset=utf-8');
   }
   if (pathname === '/blog-post.html') {
-    return sendFile(res, path.join(ROOT_DIR, 'pages', 'blog-post.html'), 'text/html; charset=utf-8');
+    return sendFile(res, path.join(ROOT_DIR, 'blog-post.html'), 'text/html; charset=utf-8');
   }
   if (pathname === '/category.html') {
-    return sendFile(res, path.join(ROOT_DIR, 'pages', 'category.html'), 'text/html; charset=utf-8');
+    return sendFile(res, path.join(ROOT_DIR, 'category.html'), 'text/html; charset=utf-8');
   }
   if (pathname === '/product-detail.html') {
-    const prodFile = fs.existsSync(path.join(ROOT_DIR, 'product-detail.html')) ? path.join(ROOT_DIR, 'product-detail.html') : path.join(ROOT_DIR, 'pages', 'product-detail.html');
+    const prodFile = fs.existsSync(path.join(ROOT_DIR, 'product-detail.html')) ? path.join(ROOT_DIR, 'product-detail.html') : path.join(ROOT_DIR, 'product-detail.html');
     return sendFile(res, prodFile, 'text/html; charset=utf-8');
   }
 
   // Blog post routes (e.g. /blog/slug)
   if (parts.length === 2 && parts[0] === 'blog') {
-    const ssgBlog = path.join(ROOT_DIR, 'blog', ${parts[1]}.html);
+    const ssgBlog = path.join(ROOT_DIR, 'blog', `${parts[1]}.html`);
     if (fs.existsSync(ssgBlog)) return sendFile(res, ssgBlog, 'text/html; charset=utf-8');
-    const blogFile = fs.existsSync(path.join(ROOT_DIR, 'blog-post.html')) ? path.join(ROOT_DIR, 'blog-post.html') : path.join(ROOT_DIR, 'pages', 'blog-post.html');
+    const blogFile = fs.existsSync(path.join(ROOT_DIR, 'blog-post.html')) ? path.join(ROOT_DIR, 'blog-post.html') : path.join(ROOT_DIR, 'blog-post.html');
     return sendFile(res, blogFile, 'text/html; charset=utf-8');
   }
   if (pathname === '/privacy' || pathname === '/privacy.html') {
-    return sendFile(res, path.join(ROOT_DIR, 'pages', 'privacy.html'), 'text/html; charset=utf-8');
+    return sendFile(res, path.join(ROOT_DIR, 'privacy.html'), 'text/html; charset=utf-8');
   }
   if (pathname === '/terms' || pathname === '/terms.html') {
-    return sendFile(res, path.join(ROOT_DIR, 'pages', 'terms.html'), 'text/html; charset=utf-8');
+    return sendFile(res, path.join(ROOT_DIR, 'terms.html'), 'text/html; charset=utf-8');
   }
   if (pathname === '/terms-of-supply' || pathname === '/terms-of-supply.html') {
-    return sendFile(res, path.join(ROOT_DIR, 'pages', 'terms-of-supply.html'), 'text/html; charset=utf-8');
+    return sendFile(res, path.join(ROOT_DIR, 'terms-of-supply.html'), 'text/html; charset=utf-8');
   }
 
   // Category routes (e.g. /voice-coils)
   const cleanSlug = pathname.replace('/', '');
   if (CATEGORY_SLUGS.includes(cleanSlug)) {
-    const ssgCat = path.join(ROOT_DIR, ${cleanSlug}.html);
+    const ssgCat = path.join(ROOT_DIR, `${cleanSlug}.html`);
     if (fs.existsSync(ssgCat)) return sendFile(res, ssgCat, 'text/html; charset=utf-8');
-    return sendFile(res, path.join(ROOT_DIR, 'pages', 'category.html'), 'text/html; charset=utf-8');
+    return sendFile(res, path.join(ROOT_DIR, 'category.html'), 'text/html; charset=utf-8');
   }
 
   // Product detail routes (e.g. /voice-coils/44-5-mm-voice-coil-...)
   const parts = pathname.split('/').filter(Boolean);
   if (parts.length === 2 && CATEGORY_SLUGS.includes(parts[0])) {
-    const ssgProd = path.join(ROOT_DIR, parts[0], ${parts[1]}.html);
+    const ssgProd = path.join(ROOT_DIR, parts[0], `${parts[1]}.html`);
     if (fs.existsSync(ssgProd)) return sendFile(res, ssgProd, 'text/html; charset=utf-8');
-    const prodFile = fs.existsSync(path.join(ROOT_DIR, 'product-detail.html')) ? path.join(ROOT_DIR, 'product-detail.html') : path.join(ROOT_DIR, 'pages', 'product-detail.html');
+    const prodFile = fs.existsSync(path.join(ROOT_DIR, 'product-detail.html')) ? path.join(ROOT_DIR, 'product-detail.html') : path.join(ROOT_DIR, 'product-detail.html');
     return sendFile(res, prodFile, 'text/html; charset=utf-8');
   }
 
   // Blog post routes (e.g. /blog/slug)
   if (parts.length === 2 && parts[0] === 'blog') {
-    const ssgBlog = path.join(ROOT_DIR, 'blog', ${parts[1]}.html);
+    const ssgBlog = path.join(ROOT_DIR, 'blog', `${parts[1]}.html`);
     if (fs.existsSync(ssgBlog)) return sendFile(res, ssgBlog, 'text/html; charset=utf-8');
-    const blogFile = fs.existsSync(path.join(ROOT_DIR, 'blog-post.html')) ? path.join(ROOT_DIR, 'blog-post.html') : path.join(ROOT_DIR, 'pages', 'blog-post.html');
+    const blogFile = fs.existsSync(path.join(ROOT_DIR, 'blog-post.html')) ? path.join(ROOT_DIR, 'blog-post.html') : path.join(ROOT_DIR, 'blog-post.html');
     return sendFile(res, blogFile, 'text/html; charset=utf-8');
   }
 
