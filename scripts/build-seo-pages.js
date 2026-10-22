@@ -388,6 +388,9 @@ categories.forEach(c => {
           <div class="product-img-wrapper">
             ${badge ? `<span class="product-badge">${badge}</span>` : ''}
             <img src="${img}" alt="${escapeHtml(p.name)} - wholesale speaker component" loading="lazy" onerror="this.src='/assets/voice-coil-popout.png'">
+            <div class="product-watermark">
+              <img src="/assets/speakerpartpro-horizontal-light.png" alt="SPEAKERPARTPRO" loading="lazy">
+            </div>
           </div>
         </a>
         <div class="product-details">
