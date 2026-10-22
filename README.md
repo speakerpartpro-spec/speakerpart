@@ -74,3 +74,5 @@ This repository is pre-configured with `vercel.json` and a serverless API functi
 3. Import the **Speakerpartpro** repository.
 4. Keep the default settings and click **Deploy**.
 5. Your project will be live with instant global edge routing and API functionality!
+
+<!-- Deployment trigger: 2026-10-22 15:16:58 -->
