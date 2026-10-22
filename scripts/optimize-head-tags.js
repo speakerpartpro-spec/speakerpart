@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const ROOT_DIR = 'C:/Users/Hp/.gemini/antigravity/scratch/thespeakerpartsco';
+const ROOT_DIR = path.resolve(__dirname, '..');
 const DOMAIN = 'https://speakerpartpro.vercel.app';
 
 // 1. Remove @import from styles/globals.css
