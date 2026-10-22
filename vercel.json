@@ -2,34 +2,21 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
-    { "source": "/assets/(.*)", "destination": "/public/assets/$1" },
-    { "source": "/uploads/(.*)", "destination": "/public/uploads/$1" },
-    { "source": "/data/(.*)", "destination": "/data/$1" },
-    { "source": "/voice-coils", "destination": "/category.html" },
-    { "source": "/speaker-cones", "destination": "/category.html" },
-    { "source": "/speaker-surrounds", "destination": "/category.html" },
-    { "source": "/speaker-spiders", "destination": "/category.html" },
-    { "source": "/dust-caps", "destination": "/category.html" },
-    { "source": "/diaphragms", "destination": "/category.html" },
-    { "source": "/lead-wires", "destination": "/category.html" },
-    { "source": "/speaker-terminals", "destination": "/category.html" },
-    { "source": "/subwoofers", "destination": "/category.html" },
-    { "source": "/speaker-edge-ports", "destination": "/category.html" },
-    { "source": "/custom-repair-kits", "destination": "/category.html" },
-    { "source": "/custom-recone-kits", "destination": "/category.html" },
-    { "source": "/voice-coils/:slug", "destination": "/product-detail.html" },
-    { "source": "/speaker-cones/:slug", "destination": "/product-detail.html" },
-    { "source": "/speaker-surrounds/:slug", "destination": "/product-detail.html" },
-    { "source": "/speaker-spiders/:slug", "destination": "/product-detail.html" },
-    { "source": "/dust-caps/:slug", "destination": "/product-detail.html" },
-    { "source": "/diaphragms/:slug", "destination": "/product-detail.html" },
-    { "source": "/lead-wires/:slug", "destination": "/product-detail.html" },
-    { "source": "/speaker-terminals/:slug", "destination": "/product-detail.html" },
-    { "source": "/subwoofers/:slug", "destination": "/product-detail.html" },
-    { "source": "/speaker-edge-ports/:slug", "destination": "/product-detail.html" },
-    { "source": "/custom-repair-kits/:slug", "destination": "/product-detail.html" },
-    { "source": "/custom-recone-kits/:slug", "destination": "/product-detail.html" },
-    { "source": "/blog/:slug", "destination": "/blog-post.html" },
-    { "source": "/api/(.*)", "destination": "/api/index.js" }
+    {
+      "source": "/assets/(.*)",
+      "destination": "/public/assets/$1"
+    },
+    {
+      "source": "/uploads/(.*)",
+      "destination": "/public/uploads/$1"
+    },
+    {
+      "source": "/data/(.*)",
+      "destination": "/public/data/$1"
+    },
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/index.js"
+    }
   ]
 }
