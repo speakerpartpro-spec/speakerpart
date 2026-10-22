@@ -4,9 +4,9 @@
   "description": "SPEAKERPARTPRO - B2B electro-acoustic loudspeaker parts manufacturer and wholesale exporter platform.",
   "main": "server.js",
   "scripts": {
-    "build": "node scripts/build-seo-pages.js && node scripts/generate-sitemap.js",
     "start": "node server.js",
-    "serve": "node server.js"
+    "serve": "node server.js",
+    "build:seo": "node scripts/build-seo-pages.js && node scripts/generate-sitemap.js"
   },
   "keywords": [
     "speakerpartpro",
